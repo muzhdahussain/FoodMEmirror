@@ -6,38 +6,65 @@
     android:layout_height="match_parent"
     tools:context="app.foodme.MainActivity">
 
-    <EditText
-        android:id="@+id/nameEt"
+
+    <TextView
+        android:id="@+id/txt_display1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_above="@+id/btn_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="114dp"
+        android:text="Returning customer?"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txt_display2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txt_display1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:layout_below="@+id/txt_display1"
+        android:text="Enter your phone number and tap continue!"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/et_phoneNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:ems="10"
+        android:hint="Phone Number"
         android:inputType="textPersonName"
-        android:selectAllOnFocus="true" />
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:textAlignment="center" />
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nameEt"
+        android:layout_below="@+id/et_phoneNum"
         android:layout_centerHorizontal="true"
         android:onClick="OnLogin"
-        android:text="Login" />
+        android:text="Continue" />
 
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/btn_reg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/nameEt"
-        android:layout_alignBottom="@+id/nameEt"
-        android:layout_marginEnd="17dp"
-        android:layout_marginRight="17dp"
-        android:layout_toLeftOf="@+id/nameEt"
-        android:layout_toStartOf="@+id/nameEt"
-        android:text="user ID:" />
+        android:layout_alignEnd="@+id/btn_login"
+        android:layout_alignLeft="@+id/btn_login"
+        android:layout_alignRight="@+id/btn_login"
+        android:layout_alignStart="@+id/btn_login"
+        android:layout_below="@+id/btn_login"
+        android:onClick="OpenReg"
+        android:text="Register" />
+
+
+
 
 </RelativeLayout>
