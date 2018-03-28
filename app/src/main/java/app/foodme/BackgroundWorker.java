@@ -2,7 +2,9 @@ package app.foodme;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.view.View;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -37,8 +39,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
          * Set to http://192.168.1.5:8080/ for Kaylee's house
          * Set to http://70.77.241.161:8080/ for elsewhere
           */
-        String login_url = "http://70.77.241.161:8080/login.php";
-        String register_url = "http://70.77.241.161:8080/register.php";
+        String login_url = "http://192.168.1.5:8080/login.php";
+        String register_url = "http://192.168.1.5:8080/register.php";
 
         if(type.equals("login")) {
             try {
@@ -138,9 +140,16 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        // Displays login response to the user
-        alertDialog.setMessage(result);
-        alertDialog.show();
+        if (result.equals("Login successful!!")) {
+            Intent i = new Intent(context, CustomerMenu.class);
+            context.startActivity(i);
+
+        }
+        else {
+            // Displays login response to the user
+            alertDialog.setMessage(result);
+            alertDialog.show();
+        }
     }
 
     @Override

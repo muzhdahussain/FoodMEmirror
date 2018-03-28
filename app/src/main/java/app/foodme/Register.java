@@ -28,6 +28,7 @@ public class Register extends AppCompatActivity {
         // Sends registration information to BackgroundWorker for processing
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         backgroundWorker.execute(type, str_phoneNum, str_name, str_email);
+
     }
 
     // Returns to login
