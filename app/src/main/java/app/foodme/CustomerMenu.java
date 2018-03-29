@@ -33,7 +33,7 @@ public class CustomerMenu extends AppCompatActivity {
     RecyclerView.LayoutManager recyclerViewlayoutManager;
     RecyclerView.Adapter recyclerViewadapter;
     ProgressBar progressBar;
-    String HTTP_JSON_URL = "http://192.168.1.5:8080/menu.php";
+    String HTTP_JSON_URL = "http://70.77.241.161:8080/menu.php";
     String GET_JSON_FROM_SERVER_NAME = "foodme";
     JsonArrayRequest jsonArrayRequest ;
     RequestQueue requestQueue ;
