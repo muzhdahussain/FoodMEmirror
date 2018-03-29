@@ -39,8 +39,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
          * Set to http://192.168.1.5:8080/ for Kaylee's house
          * Set to http://70.77.241.161:8080/ for elsewhere
           */
-        String login_url = "http://192.168.1.5:8080/login.php";
-        String register_url = "http://192.168.1.5:8080/register.php";
+        String login_url = "http://70.77.241.161:8080/login.php";
+        String register_url = "http://70.77.241.161:80800/register.php";
 
         if(type.equals("login")) {
             try {
