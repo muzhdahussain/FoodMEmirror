@@ -26,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
         backgroundWorker.execute(type, str_phoneNum);
     }
 
+    public void Emp_Login(View view){
+
+        startActivity(new Intent(this,Emp_Login.class));
+
+
+    }
+
+
     // Starts the registration activity
     public void OpenReg(View view){
         startActivity(new Intent(this,Register.class));

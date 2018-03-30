@@ -31,6 +31,7 @@ public class Register extends AppCompatActivity {
 
     }
 
+
     // Returns to login
     public void ReturnToLogin(View view){
         startActivity(new Intent(this,MainActivity.class));
