@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Emp_Login(View view){
 
-        startActivity(new Intent(this,Emp_Login.class));
+        startActivity(new Intent(this,EmpLogin.class));
 
 
     }

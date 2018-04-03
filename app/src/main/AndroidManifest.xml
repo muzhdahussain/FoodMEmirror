@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".Register" />
         <activity android:name=".CustomerMenu" />
-        <activity android:name=".Emp_Login"></activity>
+        <activity android:name=".EmpLogin"></activity>
     </application>
 
 </manifest>
