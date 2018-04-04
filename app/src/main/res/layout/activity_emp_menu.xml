@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmpMenu">
+
+    <TextView
+        android:id="@+id/MenuText"
+        android:layout_width="204dp"
+        android:layout_height="34dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="444dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="42dp"
+        android:text="Employee Menu"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/btn_order_his"
+        android:layout_width="210dp"
+        android:layout_height="55dp"
+        android:layout_below="@+id/et_phoneNum"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="248dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="28dp"
+        android:onClick="ViewOrderHistory"
+        android:text="Order History"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_orders" />
+
+    <Button
+        android:id="@+id/btn_orders"
+        android:layout_width="210dp"
+        android:layout_height="55dp"
+
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="70dp"
+        android:onClick="ViewOrders"
+        android:text="Orders"
+        app:layout_constraintBottom_toTopOf="@+id/btn_order_his"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MenuText" />
+
+</android.support.constraint.ConstraintLayout>
