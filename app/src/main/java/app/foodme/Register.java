@@ -20,9 +20,9 @@ public class Register extends AppCompatActivity {
     }
 
     public void onReg(View view){
-        String str_name = name.getText().toString();
-        String str_phoneNum = phoneNum.getText().toString();
-        String str_email = email.getText().toString();
+        str_name = name.getText().toString();
+        str_phoneNum = phoneNum.getText().toString();
+        str_email = email.getText().toString();
         String type = "register";
 
         // Sends registration information to BackgroundWorker for processing

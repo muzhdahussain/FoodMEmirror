@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ProgressBar;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -23,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.widget.Toast;
-
 
 public class CustomerMenu extends AppCompatActivity {
 
@@ -33,13 +28,15 @@ public class CustomerMenu extends AppCompatActivity {
     RecyclerView.LayoutManager recyclerViewlayoutManager;
     RecyclerView.Adapter recyclerViewadapter;
     ProgressBar progressBar;
-    String HTTP_JSON_URL = "http://70.77.241.161:8080/menu.php";
-    String GET_JSON_FROM_SERVER_NAME = "foodme";
+    String HTTP_JSON_URL = "http://70.77.241.161:8080/menu.php?type=campus";
     JsonArrayRequest jsonArrayRequest ;
     RequestQueue requestQueue ;
     View ChildView ;
     int GetItemPosition ;
-    ArrayList<String> itemNames;
+    ArrayList<String> itemIDs;
+    CustomerSelection customerSelection = new CustomerSelection();
+    String JSON_NAME = "Name";
+    String JSON_ID = "Campus_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +44,13 @@ public class CustomerMenu extends AppCompatActivity {
         setContentView(R.layout.activity_customer_menu);
 
         itemList = new ArrayList<>();
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView1);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        recyclerView = findViewById(R.id.recyclerView1);
+        progressBar = findViewById(R.id.progressBar1);
         recyclerView.setHasFixedSize(true);
         recyclerViewlayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerViewlayoutManager);
         progressBar.setVisibility(View.VISIBLE);
-        itemNames = new ArrayList<>();
+        itemIDs = new ArrayList<>();
 
         JSON_DATA_WEB_CALL();
 
@@ -77,7 +74,14 @@ public class CustomerMenu extends AppCompatActivity {
 
                 GetItemPosition = Recyclerview.getChildAdapterPosition(ChildView);
 
-                Toast.makeText(CustomerMenu.this, itemNames.get(GetItemPosition), Toast.LENGTH_LONG).show();
+                // If campus is the current selection, set the campusID chosen to customerSelection
+                if (JSON_ID.equals("Campus_ID")){
+                    customerSelection.setCampusID(itemIDs.get(GetItemPosition));
+                    // clear RecyclerView after set and retrieve new list for vendor
+                }
+                //Intent i = new Intent(CustomerMenu.this, VendorMenu.class);
+                //startActivity(i);
+                //Toast.makeText(CustomerMenu.this, "ID: " + itemIDs.get(GetItemPosition), Toast.LENGTH_LONG).show();
             }
 
             return false;
@@ -131,9 +135,12 @@ public class CustomerMenu extends AppCompatActivity {
             try {
                 json = array.getJSONObject(i);
 
-                GetDataAdapter2.setItemName(json.getString(GET_JSON_FROM_SERVER_NAME));
-
-                itemNames.add(json.getString(GET_JSON_FROM_SERVER_NAME));
+                // If a campus has not yet been selected (this might not work right if they select back)
+                if ((customerSelection.getCampusID()).equals("")) {
+                    GetDataAdapter2.setItemName(json.getString(JSON_NAME));
+                    GetDataAdapter2.setItemID(json.getString(JSON_ID));
+                    itemIDs.add(json.getString(JSON_ID));
+               }
 
 
             } catch (JSONException e) {

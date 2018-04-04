@@ -11,21 +11,19 @@
         android:id="@+id/txt_display1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_login"
+        android:layout_above="@+id/txt_display2"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="114dp"
         android:text="Returning customer?"
         android:textAlignment="center"
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/txt_display2"
-        android:layout_width="wrap_content"
+        android:layout_width="351dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txt_display1"
+        android:layout_above="@+id/et_phoneNum"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="27dp"
-        android:layout_below="@+id/txt_display1"
+        android:layout_marginBottom="5dp"
         android:text="Enter your phone number and tap continue!"
         android:textAlignment="center"
         android:textSize="18sp" />
@@ -34,8 +32,8 @@
         android:id="@+id/et_phoneNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_login"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:ems="10"
         android:hint="Phone Number"
         android:inputType="textPersonName"
@@ -47,7 +45,7 @@
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_phoneNum"
+        android:layout_above="@+id/btn_reg"
         android:layout_centerHorizontal="true"
         android:onClick="OnLogin"
         android:text="Continue" />
@@ -56,11 +54,9 @@
         android:id="@+id/btn_reg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/btn_login"
-        android:layout_alignLeft="@+id/btn_login"
-        android:layout_alignRight="@+id/btn_login"
-        android:layout_alignStart="@+id/btn_login"
-        android:layout_below="@+id/btn_login"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="107dp"
         android:onClick="OpenReg"
         android:text="Register" />
 
@@ -74,6 +70,14 @@
         android:layout_marginEnd="11dp"
         android:onClick="Emp_Login"
         android:text="Employee Login" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="167dp"
+        android:layout_height="132dp"
+        android:layout_above="@+id/txt_display1"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/foodme_logo" />
 
 
 </RelativeLayout>
