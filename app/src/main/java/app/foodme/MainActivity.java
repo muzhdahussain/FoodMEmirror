@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void OnLogin(View view) {
         String str_phoneNum = phoneNum.getText().toString();
-        String type = "login";
+        String type = "cust_login";
 
         // Sends login information to BackgroundWorker for processing
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);

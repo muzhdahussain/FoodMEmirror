@@ -1,5 +1,8 @@
 package app.foodme;
-//package com.androidjson.recyclerviewcardviewjson_androidjsoncom;
+
+/**
+ *  Portions of the code adapted from: https://androidjson.com/recyclerview-json-listview-example/
+ */
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

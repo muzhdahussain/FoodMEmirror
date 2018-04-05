@@ -16,9 +16,10 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 /**
- * Created by Kaylee on 2018-03-17.
- * <p>
- * This file sends login information to the php site for verification.
+ *
+ * This file sends login/registration information to the php site for verification.
+ *
+ * Portions of code adapted from the tutorial series found at: https://www.youtube.com/watch?v=HK515-8-Q_w
  */
 
 public class BackgroundWorker extends AsyncTask<String, Void, String> {
@@ -38,13 +39,14 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
          * Set to http://70.77.241.161:8080 for elsewhere
          */
         String databaseURL = "http://70.77.241.161:8080";
-        String login_url = databaseURL + "/login.php";
+        String login_url = databaseURL + "/cust_login.php";
         String register_url = databaseURL + "/register.php";
         String emp_login_url = databaseURL + "/emp_login.php";
 
-        if (type.equals("login")) {
+        // Handles customer login requests
+        if (type.equals("cust_login")) {
         try {
-                // Retrieves userID entered by the user
+                // Retrieves phone number entered by the customer
                 String phoneNum = params[1];
 
                 // Makes HTTP connection to the php site
