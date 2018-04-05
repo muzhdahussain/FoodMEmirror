@@ -5,13 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class CustomerOptions extends AppCompatActivity {
+public class CustOptions extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customeroption);
+        setContentView(R.layout.activity_cust_options);
     }
+
 
 
     public void openCustomerMenu(View view){

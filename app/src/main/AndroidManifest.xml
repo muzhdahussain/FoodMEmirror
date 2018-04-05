@@ -21,7 +21,8 @@
         <activity android:name=".Register" />
         <activity android:name=".CustomerMenu" />
         <activity android:name=".EmpLogin" />
-        <activity android:name=".EmpMenu"></activity>
+        <activity android:name=".EmpMenu" />
+        <activity android:name=".CustOptions"></activity>
     </application>
 
 </manifest>
