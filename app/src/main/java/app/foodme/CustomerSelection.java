@@ -8,6 +8,8 @@ public class CustomerSelection {
     String campusID;
     String vendorID;
     String menuID;
+    boolean history;
+    boolean newOrder;
 
     CustomerSelection(){
         this.campusID = "";
@@ -43,5 +45,16 @@ public class CustomerSelection {
     public void setMenuID(String TempName) {
 
         this.menuID = TempName;
+    }
+
+    public void viewHistory() {
+
+        this.history= true;
+        this.newOrder= false;
+    }
+    public void placeNewOrder() {
+
+        this.history= false;
+        this.newOrder= true;
     }
 }

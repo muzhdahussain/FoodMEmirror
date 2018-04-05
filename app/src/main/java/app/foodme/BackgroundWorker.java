@@ -184,7 +184,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         if (result.equals("Login successful!!")) {
-            Intent i = new Intent(context, CustomerMenu.class);
+            Intent i = new Intent(context, CustomerOptions.class);
             context.startActivity(i);
 
         }
