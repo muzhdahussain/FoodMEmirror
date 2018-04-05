@@ -16,9 +16,10 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 /**
- * Created by Kaylee on 2018-03-17.
- * <p>
- * This file sends login information to the php site for verification.
+ *
+ * This file sends login/registration information to the php site for verification.
+ *
+ * Portions of code adapted from the tutorial series found at: https://www.youtube.com/watch?v=HK515-8-Q_w
  */
 
 public class BackgroundWorker extends AsyncTask<String, Void, String> {
@@ -34,16 +35,18 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String type = params[0];
         /**
-         * Set to http://192.168.1.5:8080/ for Kaylee's house
-         * Set to http://70.77.241.161:8080/ for elsewhere
+         * Set to http://192.168.1.5:8080 for Kaylee's house
+         * Set to http://70.77.241.161:8080 for elsewhere
          */
-        String login_url = "http://70.77.241.161:8080/login.php";
-        String register_url = "http://70.77.241.161:8080/register.php";
-        String emp_login_url = "http://70.77.241.161:8080/emp_login.php";
+        String databaseURL = "http://70.77.241.161:8080";
+        String login_url = databaseURL + "/cust_login.php";
+        String register_url = databaseURL + "/register.php";
+        String emp_login_url = databaseURL + "/emp_login.php";
 
-        if (type.equals("login")) {
+        // Handles customer login requests
+        if (type.equals("cust_login")) {
         try {
-                // Retrieves userID entered by the user
+                // Retrieves phone number entered by the customer
                 String phoneNum = params[1];
 
                 // Makes HTTP connection to the php site
@@ -81,6 +84,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+        // Handles customer registration requests
         } else if (type.equals("register")) {
             try {
                 // Retrieves registration variables entered by the user
@@ -125,14 +130,16 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+        // Handles employee login requests
         } else if (type.equals("emp_login")) {
 
             try {
-                // Retrieves registration variables entered by the user
+                // Retrieves SIN entered by the user
                 String empSIN = params[1];
 
 
-                // Makes HTTP connection to the registration php site
+                // Makes HTTP connection to the php site
                 URL url = new URL(emp_login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -143,18 +150,15 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-
                 String postData = URLEncoder.encode("empSIN", "UTF-8") + "=" + URLEncoder.encode(empSIN, "UTF-8");
                 bufferedWriter.write(postData);
                 bufferedWriter.flush();
                 bufferedWriter.close();
                 outputStream.close();
 
-
                 // Creates input streams
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-
 
                 // Reads response from the php site
                 String result = "";
@@ -171,7 +175,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             }
         }
         return null;
-
     }
 
     @Override
