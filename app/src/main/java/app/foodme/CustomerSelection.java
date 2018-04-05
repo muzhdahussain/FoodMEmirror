@@ -1,7 +1,7 @@
 package app.foodme;
 
 /**
- * Stores the selection variables for the customer.
+ * Stores the selection variables for the customer for tracking.
  */
 public class CustomerSelection {
 

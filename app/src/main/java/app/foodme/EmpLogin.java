@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+/**
+ * Handles the employee login activity.
+ */
 public class EmpLogin extends AppCompatActivity {
 
     EditText empSinET;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +21,6 @@ public class EmpLogin extends AppCompatActivity {
 
     }
 
-
     public void LoginEmp(View view) {
 
         String Sin = empSinET.getText().toString();
@@ -29,6 +30,4 @@ public class EmpLogin extends AppCompatActivity {
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         backgroundWorker.execute(type, Sin);
     }
-
-
 }

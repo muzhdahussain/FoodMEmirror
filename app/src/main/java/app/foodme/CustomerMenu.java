@@ -2,6 +2,8 @@ package app.foodme;
 
 /**
  *  Portions of the code adapted from: https://androidjson.com/recyclerview-json-listview-example/
+ *
+ *  Handles the sequential menus displayed to the customer.
  */
 
 import android.content.Intent;
@@ -40,12 +42,16 @@ public class CustomerMenu extends AppCompatActivity {
     int GetItemPosition ;
     ArrayList<String> itemIDs;
     CustomerSelection customerSelection = new CustomerSelection();
+    // Represents the column name we want to retrieve to display from the query
     String JSON_NAME = "Name";
+    // Represents the column name we want to retrieve for tracking from the query
     String JSON_ID = "Campus_ID";
+    // Represents if the customer is currently selecting menu items or not
     boolean itemSelection = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_menu);
 
@@ -58,6 +64,7 @@ public class CustomerMenu extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         itemIDs = new ArrayList<>();
 
+        // Retrieves the first list of items from the database (campus)
         JSON_DATA_WEB_CALL();
 
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
@@ -140,10 +147,7 @@ public class CustomerMenu extends AppCompatActivity {
                     if (JSON_NAME.equals("Item_Name")){
                         itemSelection = true;
                     }
-
-
             }
-
             return false;
         }
 
@@ -157,9 +161,8 @@ public class CustomerMenu extends AppCompatActivity {
 
         }
     });
-
 }
-
+    // Sets up the web call to the database
     public void JSON_DATA_WEB_CALL(){
 
         jsonArrayRequest = new JsonArrayRequest(HTTP_JSON_URL,
@@ -185,33 +188,33 @@ public class CustomerMenu extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
+    // Parses the data retrieved from the database
     public void JSON_PARSE_DATA_AFTER_WEBCALL(JSONArray array){
 
         for(int i = 0; i<array.length(); i++) {
 
+            // An item represents a tuple retrieved from the database
             Item GetDataAdapter2 = new Item();
-
             JSONObject json = null;
+
             try {
                 json = array.getJSONObject(i);
 
+                    // Sets the tuple's name (what is displayed in the menu)
                     GetDataAdapter2.setItemName(json.getString(JSON_NAME));
+                    // Sets the tuple's identifier (what is stored for future retrieval)
                     GetDataAdapter2.setItemID(json.getString(JSON_ID));
                     itemIDs.add(json.getString(JSON_ID));
 
-
-
             } catch (JSONException e) {
-
                 e.printStackTrace();
             }
             itemList.add(GetDataAdapter2);
         }
 
+        // Displays all retrieved tuple "names" as buttons in the menu
         recyclerViewadapter = new RecyclerViewCardViewAdapter(itemList, this);
-
         recyclerView.setAdapter(recyclerViewadapter);
-
     }
 
     // Returns to login

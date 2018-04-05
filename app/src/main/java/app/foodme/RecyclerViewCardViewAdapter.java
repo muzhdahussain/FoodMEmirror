@@ -1,5 +1,11 @@
 package app.foodme;
 
+/**
+ *  Code adapted from: https://androidjson.com/recyclerview-json-listview-example/
+ *
+ *  Sets up the adapter for the RecyclerView, which creates the display for the retrieved database items,
+ *  and sets layout options using the cardview layout.
+ */
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

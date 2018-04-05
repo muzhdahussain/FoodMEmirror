@@ -84,6 +84,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+        // Handles customer registration requests
         } else if (type.equals("register")) {
             try {
                 // Retrieves registration variables entered by the user
@@ -128,14 +130,16 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+        // Handles employee login requests
         } else if (type.equals("emp_login")) {
 
             try {
-                // Retrieves registration variables entered by the user
+                // Retrieves SIN entered by the user
                 String empSIN = params[1];
 
 
-                // Makes HTTP connection to the registration php site
+                // Makes HTTP connection to the php site
                 URL url = new URL(emp_login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -146,18 +150,15 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-
                 String postData = URLEncoder.encode("empSIN", "UTF-8") + "=" + URLEncoder.encode(empSIN, "UTF-8");
                 bufferedWriter.write(postData);
                 bufferedWriter.flush();
                 bufferedWriter.close();
                 outputStream.close();
 
-
                 // Creates input streams
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-
 
                 // Reads response from the php site
                 String result = "";
@@ -174,7 +175,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             }
         }
         return null;
-
     }
 
     @Override
