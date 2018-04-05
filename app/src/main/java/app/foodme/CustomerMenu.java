@@ -20,15 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 public class CustomerMenu extends AppCompatActivity {
 
+    String databaseURL = "http://70.77.241.161:8080";
     List<Item> itemList;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager recyclerViewlayoutManager;
     RecyclerView.Adapter recyclerViewadapter;
     ProgressBar progressBar;
-    String HTTP_JSON_URL = "http://70.77.241.161:8080/menu.php?type=campus";
+    String HTTP_JSON_URL = databaseURL + "/menu.php?type=campus";
     JsonArrayRequest jsonArrayRequest ;
     RequestQueue requestQueue ;
     View ChildView ;
@@ -37,6 +39,7 @@ public class CustomerMenu extends AppCompatActivity {
     CustomerSelection customerSelection = new CustomerSelection();
     String JSON_NAME = "Name";
     String JSON_ID = "Campus_ID";
+    boolean itemSelection = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +77,68 @@ public class CustomerMenu extends AppCompatActivity {
 
                 GetItemPosition = Recyclerview.getChildAdapterPosition(ChildView);
 
-                // If campus is the current selection, set the campusID chosen to customerSelection
+                // If campus was the current selection
                 if (JSON_ID.equals("Campus_ID")){
+
+                    // Sets campusID to chosen campus
                     customerSelection.setCampusID(itemIDs.get(GetItemPosition));
-                    // clear RecyclerView after set and retrieve new list for vendor
+
+                    // Sets next menu retrieval variables
+                    JSON_NAME = "Name";
+                    JSON_ID = "Vendor_ID";
+                    HTTP_JSON_URL = databaseURL + "/menu.php?type=vendor&campusid=" + customerSelection.getCampusID();
                 }
-                //Intent i = new Intent(CustomerMenu.this, VendorMenu.class);
-                //startActivity(i);
-                //Toast.makeText(CustomerMenu.this, "ID: " + itemIDs.get(GetItemPosition), Toast.LENGTH_LONG).show();
+
+                // If vendor was the current selection
+                else if (JSON_ID.equals("Vendor_ID")){
+
+                    // Sets vendorID to chosen vendor
+                    customerSelection.setVendorID(itemIDs.get(GetItemPosition));
+
+                    // Sets next menu retrieval variables
+                    JSON_NAME = "Menu_Name";
+                    JSON_ID = "Menu_Name";
+                    HTTP_JSON_URL = databaseURL + "/menu.php?type=menu&campusid=" + customerSelection.getCampusID() + "&vendorid=" + customerSelection.getVendorID();
+                }
+
+                // If menu was the current selection
+                else if (JSON_ID.equals("Menu_Name")){
+
+                    // Sets menuID to chosen menu
+                    customerSelection.setMenuID(itemIDs.get(GetItemPosition));
+
+                    // Sets next menu retrieval variables
+                    JSON_NAME = "Item_Name";
+                    JSON_ID = "Item_Name";
+                    HTTP_JSON_URL = databaseURL + "/menu.php?type=menu_item&campusid=" + customerSelection.getCampusID() + "&vendorid=" +customerSelection.getVendorID() + "&menuid=" + customerSelection.getMenuID();
+                }
+
+                    // If on menu item selection, do not clear the menu and load new menu
+                    if (itemSelection == false) {
+                        // Clears the menu
+                        itemIDs.clear();
+                        itemList.clear();
+                        recyclerView.removeAllViewsInLayout();
+                        int count = recyclerViewadapter.getItemCount();
+                        recyclerViewadapter.notifyItemRangeRemoved(0, count);
+
+                        // Retrieves next menu
+                        JSON_DATA_WEB_CALL();
+                    }
+
+                    else {
+
+                        // TODO: handle menu item selection here
+
+                        // Displays to the user that the item has been added to their order when they tap it (doesn't actually yet)
+                        Toast.makeText(CustomerMenu.this, "Item added to order!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (JSON_NAME.equals("Item_Name")){
+                        itemSelection = true;
+                    }
+
+
             }
 
             return false;
@@ -135,12 +192,10 @@ public class CustomerMenu extends AppCompatActivity {
             try {
                 json = array.getJSONObject(i);
 
-                // If a campus has not yet been selected (this might not work right if they select back)
-                if ((customerSelection.getCampusID()).equals("")) {
                     GetDataAdapter2.setItemName(json.getString(JSON_NAME));
                     GetDataAdapter2.setItemID(json.getString(JSON_ID));
                     itemIDs.add(json.getString(JSON_ID));
-               }
+
 
 
             } catch (JSONException e) {

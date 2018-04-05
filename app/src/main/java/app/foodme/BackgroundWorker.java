@@ -34,12 +34,13 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String type = params[0];
         /**
-         * Set to http://192.168.1.5:8080/ for Kaylee's house
-         * Set to http://70.77.241.161:8080/ for elsewhere
+         * Set to http://192.168.1.5:8080 for Kaylee's house
+         * Set to http://70.77.241.161:8080 for elsewhere
          */
-        String login_url = "http://70.77.241.161:8080/login.php";
-        String register_url = "http://70.77.241.161:8080/register.php";
-        String emp_login_url = "http://70.77.241.161:8080/emp_login.php";
+        String databaseURL = "http://70.77.241.161:8080";
+        String login_url = databaseURL + "/login.php";
+        String register_url = databaseURL + "/register.php";
+        String emp_login_url = databaseURL + "/emp_login.php";
 
         if (type.equals("login")) {
         try {
