@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,53 +10,33 @@
     <Button
         android:id="@+id/bttn_customerHistory"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="7dp"
-        android:layout_marginEnd="132dp"
-        android:layout_marginStart="133dp"
-        android:layout_marginTop="54dp"
-        android:text="View History"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bttn_newOrder" />
+        android:layout_marginBottom="194dp"
+        android:text="View Order History" />
 
     <Button
         android:id="@+id/bttn_newOrder"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bttn_customerHistory"
+        android:layout_height="60dp"
+
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="54dp"
-        android:layout_marginEnd="141dp"
-        android:layout_marginStart="142dp"
-        android:layout_marginTop="42dp"
+        android:layout_above="@+id/bttn_customerHistory"
         android:onClick="openCustomerMenu"
-        android:text="New Order"
-        app:layout_constraintBottom_toTopOf="@+id/bttn_customerHistory"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:text="Create New Order" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bttn_newOrder"
+
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="42dp"
-        android:layout_marginEnd="92dp"
-        android:layout_marginStart="93dp"
-        android:layout_marginTop="157dp"
-        android:text="Please choose one"
+        android:layout_marginTop="133dp"
+        android:text="Please choose an option."
         android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/bttn_newOrder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="18sp" />
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
