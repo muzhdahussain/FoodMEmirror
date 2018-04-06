@@ -48,6 +48,8 @@ public class CustomerMenu extends AppCompatActivity {
     String JSON_ID = "Campus_ID";
     // Represents if the customer is currently selecting menu items or not
     boolean itemSelection = false;
+    // Creates empty order for customer
+    Order order = new Order();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,9 +140,10 @@ public class CustomerMenu extends AppCompatActivity {
 
                     else {
 
-                        // TODO: handle menu item selection here
+                        // Adds item to the orderItem array in Order
+                        order.addItem(new OrderItem(customerSelection.getVendorID(), customerSelection.getMenuID(), itemIDs.get(GetItemPosition)));
 
-                        // Displays to the user that the item has been added to their order when they tap it (doesn't actually yet)
+                        // Displays to the user that the item has been added to their order
                         Toast.makeText(CustomerMenu.this, "Item added to order!", Toast.LENGTH_SHORT).show();
                     }
 
