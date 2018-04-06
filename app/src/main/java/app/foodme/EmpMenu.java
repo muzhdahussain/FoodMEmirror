@@ -11,15 +11,22 @@ import android.view.View;
 
 public class EmpMenu extends AppCompatActivity {
 
+    String empSin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emp_menu);
+
+        //gets the emp sin from the login
+        empSin = getIntent().getStringExtra("EMP_SIN");
     }
 
     public void ViewOrders(View view){
 
-       // startActivity(new Intent(this,Orders.class));
+        Intent i = new Intent(this,EmpOrders.class);
+        i.putExtra("EMP_SIN", empSin);
+        startActivity(i);
     }
 
     public void ViewOrderHistory(View view){

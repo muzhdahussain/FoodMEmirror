@@ -11,6 +11,7 @@ import android.widget.EditText;
 public class EmpLogin extends AppCompatActivity {
 
     EditText empSinET;
+    String Sin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class EmpLogin extends AppCompatActivity {
 
     public void LoginEmp(View view) {
 
-        String Sin = empSinET.getText().toString();
+        Sin = empSinET.getText().toString();
         String type = "emp_login";
 
         // Sends login information to BackgroundWorker for processing

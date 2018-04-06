@@ -26,6 +26,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
     Context context;
     AlertDialog alertDialog;
+    String empSIN;
 
     BackgroundWorker(Context ctx) {
         context = ctx;
@@ -136,7 +137,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
             try {
                 // Retrieves SIN entered by the user
-                String empSIN = params[1];
+                empSIN = params[1];
 
 
                 // Makes HTTP connection to the php site
@@ -193,6 +194,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         }
         else if(result.equals("Employee login successful!!")){
             Intent i = new Intent(context, EmpMenu.class);
+            //pass the empSin thought activity's
+            i.putExtra("EMP_SIN", empSIN);
             context.startActivity(i);
         }
         else {
