@@ -36,7 +36,7 @@ public class EmpOrders extends AppCompatActivity {
     ProgressBar progressBar;
 
     String empSin;
-
+    int orderView = 0;
     String http_json_url = databaseURL + "/emp_orders.php?type=orders&empSin=";
 
     JsonArrayRequest jsonArrayRequest ;
@@ -60,8 +60,8 @@ public class EmpOrders extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emp_orders);
         empSin = getIntent().getStringExtra("EMP_SIN");
+        orderView = getIntent().getIntExtra("ORDER_FLAG",0);
 
-        http_json_url += empSin;
 
         itemList = new ArrayList<>();
         recyclerView = findViewById(R.id.recyclerView2);
@@ -73,6 +73,16 @@ public class EmpOrders extends AppCompatActivity {
         itemIDs = new ArrayList<>();
 
 
+        if (orderView == 1) {
+
+            http_json_url += "?type=orders&empSin=";
+            http_json_url += empSin;
+        }
+        else if(orderView == 2){
+
+            http_json_url += "?type=orderHistory&empSin=";
+            http_json_url += empSin;
+        }
 
 
 

@@ -12,7 +12,7 @@ import android.view.View;
 public class EmpMenu extends AppCompatActivity {
 
     String empSin;
-
+    int orderViewFlag; //1 for orders 2 for order history
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,11 +26,15 @@ public class EmpMenu extends AppCompatActivity {
 
         Intent i = new Intent(this,EmpOrders.class);
         i.putExtra("EMP_SIN", empSin);
+        i.putExtra("ORDER_FLAG", 1);
         startActivity(i);
     }
 
     public void ViewOrderHistory(View view){
 
-       // startActivity(new Intent(this,OrderHistory.class));
+        Intent i = new Intent(this,EmpOrders.class);
+        i.putExtra("EMP_SIN", empSin);
+        i.putExtra("ORDER_FLAG", 2);
+        startActivity(i);
     }
 }
