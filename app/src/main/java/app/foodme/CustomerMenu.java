@@ -42,6 +42,7 @@ public class CustomerMenu extends AppCompatActivity {
     int GetItemPosition ;
     ArrayList<String> itemIDs;
     CustomerSelection customerSelection = new CustomerSelection();
+    String currentMenu = "campus";
     // Represents the column name we want to retrieve to display from the query
     String JSON_NAME = "Name";
     // Represents the column name we want to retrieve for tracking from the query
@@ -92,10 +93,18 @@ public class CustomerMenu extends AppCompatActivity {
                 // If campus was the current selection
                 if (JSON_ID.equals("Campus_ID")){
 
+
+                    // In the case that a user backs out to campus selection, and chooses a DIFFERENT campus, the order must be cleared and a message is displayed to user
+                    if (!((customerSelection.getCampusID()).equals("") || customerSelection.getCampusID().equals(itemIDs.get(GetItemPosition)))){
+                        order.clearOrder();
+                        // Displays to the user that their order has been cleared
+                        Toast.makeText(CustomerMenu.this, "WARNING: Order has been cleared!", Toast.LENGTH_LONG).show();
+                    }
                     // Sets campusID to chosen campus
                     customerSelection.setCampusID(itemIDs.get(GetItemPosition));
 
                     // Sets next menu retrieval variables
+                    currentMenu = "vendors";
                     JSON_NAME = "Name";
                     JSON_ID = "Vendor_ID";
                     HTTP_JSON_URL = databaseURL + "/menu.php?type=vendor&campusid=" + customerSelection.getCampusID();
@@ -108,6 +117,7 @@ public class CustomerMenu extends AppCompatActivity {
                     customerSelection.setVendorID(itemIDs.get(GetItemPosition));
 
                     // Sets next menu retrieval variables
+                    currentMenu = "menus";
                     JSON_NAME = "Menu_Name";
                     JSON_ID = "Menu_Name";
                     HTTP_JSON_URL = databaseURL + "/menu.php?type=menu&campusid=" + customerSelection.getCampusID() + "&vendorid=" + customerSelection.getVendorID();
@@ -120,6 +130,7 @@ public class CustomerMenu extends AppCompatActivity {
                     customerSelection.setMenuID(itemIDs.get(GetItemPosition));
 
                     // Sets next menu retrieval variables
+                    currentMenu = "items";
                     JSON_NAME = "Item_Name";
                     JSON_ID = "Item_Name";
                     HTTP_JSON_URL = databaseURL + "/menu.php?type=menu_item&campusid=" + customerSelection.getCampusID() + "&vendorid=" +customerSelection.getVendorID() + "&menuid=" + customerSelection.getMenuID();
@@ -220,8 +231,57 @@ public class CustomerMenu extends AppCompatActivity {
         recyclerView.setAdapter(recyclerViewadapter);
     }
 
-    // Returns to login
-    public void ReturnToLogin(View view){
-        startActivity(new Intent(this,MainActivity.class));
+    /*
+    * Uses the built-in back button in Android
+    * Goes back to an appropriate location
+    * If in a menu other than campus, goes back one menu position
+    * If in the campus menu, returns to login
+    */
+    @Override
+    public void onBackPressed() {
+        if (true) {
+            if (currentMenu.equals("campus")){
+                // Displays to the user that their order has been cleared
+                Toast.makeText(CustomerMenu.this, "WARNING: Order has been cleared!", Toast.LENGTH_LONG).show();
+
+                // Returns to customer selection menu
+                startActivity(new Intent(this,CustOptions.class));}
+
+            else if (currentMenu.equals("vendors")){
+                // Sets previous menu retrieval variables
+                JSON_NAME = "Name";
+                JSON_ID = "Campus_ID";
+                HTTP_JSON_URL = databaseURL + "/menu.php?type=campus";
+                currentMenu = "campus";
+            }
+
+            else if (currentMenu.equals("menus")){
+                // Sets previous menu retrieval variables
+                JSON_NAME = "Name";
+                JSON_ID = "Vendor_ID";
+                HTTP_JSON_URL = databaseURL + "/menu.php?type=vendor&campusid=" + customerSelection.getCampusID();
+                currentMenu = "vendors";
+            }
+
+            else if (currentMenu.equals("items")){
+                // Sets previous menu retrieval variables
+                JSON_NAME = "Menu_Name";
+                JSON_ID = "Menu_Name";
+                HTTP_JSON_URL = databaseURL + "/menu.php?type=menu&campusid=" + customerSelection.getCampusID() + "&vendorid=" + customerSelection.getVendorID();
+                currentMenu = "menus";
+                itemSelection = false;
+            }
+
+            itemIDs.clear();
+            itemList.clear();
+            recyclerView.removeAllViewsInLayout();
+            int count = recyclerViewadapter.getItemCount();
+            recyclerViewadapter.notifyItemRangeRemoved(0, count);
+
+            // Retrieves previous menu
+            JSON_DATA_WEB_CALL();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

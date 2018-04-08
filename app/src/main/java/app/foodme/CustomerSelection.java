@@ -5,9 +5,9 @@ package app.foodme;
  */
 public class CustomerSelection {
 
-    String campusID;
-    String vendorID;
-    String menuID;
+    private String campusID;
+    private String vendorID;
+    private String menuID;
 
     CustomerSelection(){
         this.campusID = "";
