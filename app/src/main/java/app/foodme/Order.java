@@ -21,17 +21,17 @@ import java.util.Iterator;
 
 public class Order {
 
-    String paymentType;
-    String apprOrDen;
-    String building;
-    String roomNum;
-    String status;
-    String custPhoneNum;
-    String campusID;
-    String notes;
+    private String paymentType;
+    private String apprOrDen;
+    private String building;
+    private String roomNum;
+    private String status;
+    private String custPhoneNum;
+    private String campusID;
+    private String notes;
 
     // Format of order list is (vendorID, menuID, menuItemID)
-    ArrayList<OrderItem> orderItems;
+    private ArrayList<OrderItem> orderItems;
 
     Order() {
         this.campusID = "";
@@ -54,6 +54,14 @@ public class Order {
         this.paymentType = paymentType;
         this.campusID = campusID;
         this.custPhoneNum = custPhoneNum;
+    }
+
+    // Returns true if the order has any items added to it
+    public boolean hasItems(){
+        if (orderItems.isEmpty()){
+            return false;
+        }
+        return true;
     }
 
     // Clears an in-progress order if user switches to another campus

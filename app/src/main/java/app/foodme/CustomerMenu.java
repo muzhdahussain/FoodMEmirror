@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -51,6 +52,7 @@ public class CustomerMenu extends AppCompatActivity {
     boolean itemSelection = false;
     // Creates empty order for customer
     Order order = new Order();
+    Button btnReview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,19 +68,20 @@ public class CustomerMenu extends AppCompatActivity {
         recyclerView.setLayoutManager(recyclerViewlayoutManager);
         progressBar.setVisibility(View.VISIBLE);
         itemIDs = new ArrayList<>();
+        btnReview = findViewById(R.id.btn_review);
 
         // Retrieves the first list of items from the database (campus)
         JSON_DATA_WEB_CALL();
 
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
 
-                                                GestureDetector gestureDetector = new GestureDetector(CustomerMenu.this, new GestureDetector.SimpleOnGestureListener() {
+                                                    GestureDetector gestureDetector = new GestureDetector(CustomerMenu.this, new GestureDetector.SimpleOnGestureListener() {
 
-                                                    @Override public boolean onSingleTapUp(MotionEvent motionEvent) {
-                                                        return true;
+                                                        @Override public boolean onSingleTapUp(MotionEvent motionEvent) {
+                                                            return true;
+                                                        }
                                                     }
-                                                }
-                                                );
+                                                    );
 
 
         @Override
@@ -161,6 +164,11 @@ public class CustomerMenu extends AppCompatActivity {
                     if (JSON_NAME.equals("Item_Name")){
                         itemSelection = true;
                     }
+
+                // If the customer has items in their order, the submit order button is displayed
+                if (order.hasItems()){
+                    btnReview.setVisibility(View.VISIBLE);
+                }
             }
             return false;
         }
@@ -272,16 +280,57 @@ public class CustomerMenu extends AppCompatActivity {
                 itemSelection = false;
             }
 
-            itemIDs.clear();
-            itemList.clear();
-            recyclerView.removeAllViewsInLayout();
-            int count = recyclerViewadapter.getItemCount();
-            recyclerViewadapter.notifyItemRangeRemoved(0, count);
+            else if (currentMenu.equals("review")){
+                currentMenu = "items";
 
-            // Retrieves previous menu
-            JSON_DATA_WEB_CALL();
+                // Sets previous menu retrieval variables
+                JSON_NAME = "Item_Name";
+                JSON_ID = "Item_Name";
+                HTTP_JSON_URL = databaseURL + "/menu.php?type=menu_item&campusid=" + customerSelection.getCampusID() + "&vendorid=" +customerSelection.getVendorID() + "&menuid=" + customerSelection.getMenuID();
+                setContentView(R.layout.activity_customer_menu);
+                recyclerView = findViewById(R.id.recyclerView1);
+                progressBar = findViewById(R.id.progressBar1);
+                recyclerView.setHasFixedSize(true);
+                recyclerViewlayoutManager = new LinearLayoutManager(this);
+                recyclerView.setLayoutManager(recyclerViewlayoutManager);
+                progressBar.setVisibility(View.VISIBLE);
+                //TODO: Items are not selectable if backing up from the review/submit screens (touch listener breaks)
+                // Possible fix: Make listener in its own class for referencing
+
+            }
+
+            else if (currentMenu.equals("submit")){
+                currentMenu = "review";
+                setContentView(R.layout.activity_customer_review_order);
+            }
+
+            // Ignores menu refresh if on review or submit page
+            if (!currentMenu.equals("submit")) {
+
+                itemIDs.clear();
+                itemList.clear();
+                recyclerView.removeAllViewsInLayout();
+                int count = recyclerViewadapter.getItemCount();
+                recyclerViewadapter.notifyItemRangeRemoved(0, count);
+
+                // Retrieves previous menu
+                JSON_DATA_WEB_CALL();
+            }
         } else {
             super.onBackPressed();
         }
     }
+
+    // Response when the review order button is selected
+    public void reviewOrder(View view){
+        currentMenu = "review";
+        setContentView(R.layout.activity_customer_review_order);
+    }
+
+    // Response when the submit button is selected
+    public void submitOrder(View view){
+        currentMenu = "submit";
+        setContentView(R.layout.activity_customer_submit_order);
+    }
+
 }
