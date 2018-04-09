@@ -56,6 +56,20 @@ public class Order {
         this.custPhoneNum = custPhoneNum;
     }
 
+    // Retrieves a string containing a list of all items in the order
+    public String retrieveItems(){
+        if (orderItems.isEmpty()){
+            return "";
+        }
+        else {
+            String items = "";
+            Iterator<OrderItem> iterator = orderItems.iterator();
+            while (iterator.hasNext()) {
+                items = items + iterator.next().getMenuItemID() + "\n";
+            }
+            return items;
+        }
+    }
     // Returns true if the order has any items added to it
     public boolean hasItems(){
         if (orderItems.isEmpty()){

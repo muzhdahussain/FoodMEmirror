@@ -4,23 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="228dp"
-        android:text="Order information here."
-        android:textSize="18sp" />
 
     <Button
         android:id="@+id/btn_submit_final"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="160dp"
+        android:layout_below="@+id/et_notes"
         android:text="Submit" />
 
     <TextView
@@ -33,4 +24,47 @@
         android:text="Please provide the required information, and click submit when done."
         android:textAlignment="center"
         android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/et_roomNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Room Number"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/et_building"/>
+
+    <EditText
+        android:id="@+id/et_building"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Building"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/et_paymentType"/>
+
+    <EditText
+        android:id="@+id/et_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Notes"
+        android:inputType="textMultiLine"
+        android:textAlignment="viewStart"
+        android:layout_below="@+id/et_roomNum"/>
+
+    <EditText
+        android:id="@+id/et_paymentType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Payment Type"
+        android:layout_marginTop="30dp"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/textView3"/>
+
 </RelativeLayout>
