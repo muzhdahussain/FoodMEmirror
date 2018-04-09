@@ -7,11 +7,15 @@ import android.view.View;
 
 public class CustOptions extends AppCompatActivity {
 
+
+    String phone_no;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cust_options);
+        phone_no = getIntent().getStringExtra("custPhoneNum");
     }
+
 
 
 
@@ -24,7 +28,7 @@ public class CustOptions extends AppCompatActivity {
 
     public void openCustomerHistory(View view){
 
-        // startActivity(new Intent(this,OrderHistory.class));
+        startActivity(new Intent(this,CustomerHistory.class));
 
 
     }
