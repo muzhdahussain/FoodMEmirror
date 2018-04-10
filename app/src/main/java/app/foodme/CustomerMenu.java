@@ -7,7 +7,6 @@ package app.foodme;
  */
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -26,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -64,7 +62,6 @@ public class CustomerMenu extends AppCompatActivity {
     String roomNum;
     String notes;
     String phone_no;
-    String orderNum;
     ArrayList<OrderItem> orderItems;
 
     @Override
@@ -219,7 +216,6 @@ public class CustomerMenu extends AppCompatActivity {
                 });
 
         requestQueue = Volley.newRequestQueue(this);
-
         requestQueue.add(jsonArrayRequest);
     }
 
@@ -246,7 +242,6 @@ public class CustomerMenu extends AppCompatActivity {
             }
             itemList.add(GetDataAdapter2);
         }
-
         // Displays all retrieved tuple "names" as buttons in the menu
         recyclerViewadapter = new RecyclerViewCardViewAdapter(itemList, this);
         recyclerView.setAdapter(recyclerViewadapter);
@@ -350,7 +345,6 @@ public class CustomerMenu extends AppCompatActivity {
         TextView txtOrderItems = findViewById(R.id.txt_orderitems);
         txtOrderItems.setText(order.retrieveItems());
         txtOrderItems.setMovementMethod(new ScrollingMovementMethod());
-
     }
 
     // Response when the submit button is selected
@@ -382,23 +376,28 @@ public class CustomerMenu extends AppCompatActivity {
             // Status is set to 1, which indicates the order is awaiting a deliverer
             // Sends customer order information to BackgroundWorker for processing
             BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-            backgroundWorker.execute("order_submit", paymentType, "A", building, roomNum, "1", phone_no, customerSelection.getCampusID(), notes);
 
-            orderNum = backgroundWorker.retrievedOrderNum;
-            // Loops through order items and submits them to the database
+            // Adds the order items to an array in the background worker for processing
             orderItems = order.getOrderItems();
-
-            // TODO: Dynamically retrieve actual order number
-            orderNum = "21";
-
-            OrderItem orderItem;
-            Iterator<OrderItem> iterator = orderItems.iterator();
-
-            while (iterator.hasNext()) {
-                orderItem = iterator.next();
-                backgroundWorker = new BackgroundWorker(this);
-                backgroundWorker.execute("item_submit", orderNum, orderItem.getMenuItemID(), orderItem.getMenuID(), orderItem.getVendorID(), customerSelection.getCampusID(), "1");
+            for (OrderItem orderItem : orderItems){
+                backgroundWorker.orderItems.add(orderItem);
             }
+
+            backgroundWorker.execute("order_submit", paymentType, "A", building, roomNum, "1", phone_no, customerSelection.getCampusID(), notes);
+        }
+    }
+
+    // Assigns an employee for the order based on the campus the order is linked to
+    public String assignEmployee(){
+        // TODO: External self-refreshing script would handle employee assignment in full implementation and be called here
+        // For demonstration purposes, the assignment is hardcoded. As the current implementation of the application does not allow for modification of employees in the system.
+
+        if (customerSelection.getCampusID().equals("1")){
+            return "1";
+        }
+
+        else {
+            return "2";
         }
     }
 }
