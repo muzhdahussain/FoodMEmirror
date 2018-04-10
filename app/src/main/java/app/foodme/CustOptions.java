@@ -22,7 +22,6 @@ public class CustOptions extends AppCompatActivity {
 
 
     public void openCustomerMenu(View view){
-
         Intent i = new Intent(this, CustomerMenu.class);
         i.putExtra("s_phoneNum", phone_no);
         startActivity(i);

@@ -14,6 +14,7 @@ import android.view.View;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -56,6 +57,11 @@ public class CustomerMenu extends AppCompatActivity {
     Order order = new Order();
     Button btnReview;
     RecyclerView.OnItemTouchListener touchListener;
+    String paymentType;
+    String building;
+    String roomNum;
+    String notes;
+    String phone_no;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,7 @@ public class CustomerMenu extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         itemIDs = new ArrayList<>();
         btnReview = findViewById(R.id.btn_review);
+        phone_no = getIntent().getStringExtra("s_phoneNum");
 
         // Retrieves the first list of items from the database (campus)
         JSON_DATA_WEB_CALL();
@@ -343,9 +350,33 @@ public class CustomerMenu extends AppCompatActivity {
     }
 
     // Response when the submit button is selected
-    public void submitOrder(View view){
+    public void submitOrderPage(View view){
         currentMenu = "submit";
         setContentView(R.layout.activity_customer_submit_order);
+    }
+
+    // Handles retrieving the input entered by the customer and sending them for submission to the database
+    public void finalOrderSubmission(View view){
+
+        // Variables for the edittext fields on the order submission page
+        EditText et_paymentType = findViewById(R.id.et_paymentType);
+        EditText et_building = findViewById(R.id.et_building);
+        EditText et_roomNum = findViewById(R.id.et_roomNum);
+        EditText et_notes = findViewById(R.id.et_notes);
+
+        // Retrieves information entered by the customer
+        paymentType = et_paymentType.getText().toString();
+        building = et_building.getText().toString();
+        roomNum = et_roomNum.getText().toString();
+        notes = et_notes.getText().toString();
+
+        // Default apprOrDen value is A (payment system is not implemented)
+        // Status is set to 1, which indicates the order is awaiting a deliverer
+
+        // Sends customer order information to BackgroundWorker for processing
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.execute("order_submit", paymentType, "A", building, roomNum, "1", phone_no, customerSelection.getCampusID(), notes);
+
     }
 
 }
