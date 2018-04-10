@@ -9,6 +9,7 @@ package app.foodme;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class CustomerMenu extends AppCompatActivity {
@@ -73,8 +75,6 @@ public class CustomerMenu extends AppCompatActivity {
 
         // Retrieves the first list of items from the database (campus)
         JSON_DATA_WEB_CALL();
-
-
 
         touchListener = new RecyclerView.OnItemTouchListener() {
 
@@ -300,11 +300,17 @@ public class CustomerMenu extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 recyclerView.addOnItemTouchListener(touchListener);
                 btnReview = findViewById(R.id.btn_review);
+                btnReview.setVisibility(View.VISIBLE);
             }
 
             else if (currentMenu.equals("submit")){
                 currentMenu = "review";
                 setContentView(R.layout.activity_customer_review_order);
+
+                // Displays chosen order items to the customer
+                TextView txtOrderItems = findViewById(R.id.txt_orderitems);
+                txtOrderItems.setText(order.retrieveItems());
+                txtOrderItems.setMovementMethod(new ScrollingMovementMethod());
             }
 
             // Ignores menu refresh if on review or submit page
@@ -328,6 +334,12 @@ public class CustomerMenu extends AppCompatActivity {
     public void reviewOrder(View view){
         currentMenu = "review";
         setContentView(R.layout.activity_customer_review_order);
+
+        // Displays chosen order items to the customer
+        TextView txtOrderItems = findViewById(R.id.txt_orderitems);
+        txtOrderItems.setText(order.retrieveItems());
+        txtOrderItems.setMovementMethod(new ScrollingMovementMethod());
+
     }
 
     // Response when the submit button is selected
