@@ -33,13 +33,13 @@ public class CustomerHistory extends AppCompatActivity {
     ProgressBar progressBar;
 
     String databaseURL = "http://70.77.241.161:8080";
-    String HTTP_JSON_URL = databaseURL + "/customer_history.php";
+    String HTTP_JSON_URL = databaseURL + "/customer_history.php?cust_phone=";
 
     // Represents the column name we want to retrieve for tracking from the query
     String phone_no;
 
     // Represents the column name we want to retrieve to display from the query
-    String GET_JSON_FROM_SERVER_NAME1 = "Order_Num";
+    String GET_JSON_Order_Num = "Order_Num";
     String GET_JSON_FROM_SERVER_NAME2 = "Payment_Type";
     String GET_JSON_FROM_SERVER_NAME3 = "App_or_Den";
 
@@ -56,9 +56,8 @@ public class CustomerHistory extends AppCompatActivity {
 
         setContentView(R.layout.activity_cust_hist);
 
-        phone_no= getIntent().getStringExtra("custPhoneNum");
-
-
+        phone_no= getIntent().getStringExtra("s_phoneNum");
+        HTTP_JSON_URL= HTTP_JSON_URL+ phone_no;
         itemList = new ArrayList<>();
         recyclerView = findViewById(R.id.recyclerView2);
         progressBar = findViewById(R.id.progressBar2);
@@ -89,6 +88,7 @@ public class CustomerHistory extends AppCompatActivity {
 
                     GetItemPosition = Recyclerview.getChildAdapterPosition(ChildView);
 
+                    //TODO Add scrollable popup to display all order information
                    // Toast.makeText(CustomerHistory.this, SubjectNames.get(GetItemPosition), Toast.LENGTH_LONG).show();
                 }
 
@@ -144,9 +144,9 @@ public class CustomerHistory extends AppCompatActivity {
             try {
                 json = array.getJSONObject(i);
 
-                GetDataAdapter2.setItemName(json.getString(GET_JSON_FROM_SERVER_NAME1));
+                GetDataAdapter2.setItemName("Order#: "+json.getString(GET_JSON_Order_Num));
 
-                itemIDs.add(json.getString(GET_JSON_FROM_SERVER_NAME1));
+                itemIDs.add(json.getString(GET_JSON_Order_Num));
 
 
             } catch (JSONException e) {

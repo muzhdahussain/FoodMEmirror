@@ -27,6 +27,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     Context context;
     AlertDialog alertDialog;
     String empSIN;
+    String s_phoneNum;
 
     BackgroundWorker(Context ctx) {
         context = ctx;
@@ -49,7 +50,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         try {
                 // Retrieves phone number entered by the customer
                 String phoneNum = params[1];
-
+                s_phoneNum= params[1];
                 // Makes HTTP connection to the php site
                 URL url = new URL(login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -189,6 +190,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         if (result.equals("Login successful!!")) {
             Intent i = new Intent(context, CustOptions.class);
+            i.putExtra("phone_no", s_phoneNum );
             context.startActivity(i);
 
         }
