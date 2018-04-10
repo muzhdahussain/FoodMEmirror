@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+
 /**
  * This file sends login/registration information to the php site for verification.
  * <p>
@@ -31,6 +32,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     String empSIN;
     String s_phoneNum;
     String orderID;
+    String retrievedOrderNum;
+
 
     BackgroundWorker(Context ctx) {
         context = ctx;
@@ -48,6 +51,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         String register_url = databaseURL + "/register.php";
         String emp_login_url = databaseURL + "/emp_login.php";
         String cust_submit_order_url = databaseURL + "/cust_submit_order.php";
+        String cust_submit_item_url = databaseURL + "/cust_submit_item.php";
 
         // Handles customer login requests
         if (type.equals("cust_login")) {
@@ -196,7 +200,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-                System.out.println(s_phoneNum);
                 // Sends order submission details to php script
                 String postData = URLEncoder.encode("payment_type", "UTF-8") + "=" + URLEncoder.encode(params[1], "UTF-8") + "&"
                         + URLEncoder.encode("appr_den", "UTF-8") + "=" + URLEncoder.encode(params[2], "UTF-8") + "&"
@@ -225,10 +228,57 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 inputStream.close();
                 httpURLConnection.disconnect();
 
-                String orderNum = result;
+                retrievedOrderNum = result;
+
 
                 result = "Order No. " + result + " has been submitted successfully!";
-                // TODO: Send order items to php script using the retrieved order number
+                return result;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else if ((type.equals("item_submit"))){
+
+            try {
+
+                // Makes HTTP connection to the php site
+                URL url = new URL(cust_submit_item_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setDoOutput(true);
+
+                // Creates output streams
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+
+                // Sends order item submission details to php script
+                String postData = URLEncoder.encode("order_num", "UTF-8") + "=" + URLEncoder.encode(params[1], "UTF-8") + "&"
+                        + URLEncoder.encode("item_name", "UTF-8") + "=" + URLEncoder.encode(params[2], "UTF-8") + "&"
+                        + URLEncoder.encode("menu_name", "UTF-8") + "=" + URLEncoder.encode(params[3], "UTF-8") + "&"
+                        + URLEncoder.encode("vendor_id", "UTF-8") + "=" + URLEncoder.encode(params[4], "UTF-8") + "&"
+                        + URLEncoder.encode("campus_id", "UTF-8") + "=" + URLEncoder.encode(params[5], "UTF-8") + "&"
+                        + URLEncoder.encode("quantity", "UTF-8") + "=" + URLEncoder.encode(params[6], "UTF-8");
+
+                bufferedWriter.write(postData);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+
+                // Creates input streams
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+
+                // Reads response from the php site, which includes the order number for the inserted order
+                String result = "";
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                inputStream.close();
+                httpURLConnection.disconnect();
+
                 return result;
 
             } catch (IOException e) {
@@ -351,11 +401,14 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         }
        else if (result.startsWith("Order No.")){
             // Displays to the customer that their order has been submitted
-            Toast.makeText(context, result,  Toast.LENGTH_LONG).show();
 
+            Toast.makeText(context, result,  Toast.LENGTH_LONG).show();
             Intent i = new Intent(context, CustOptions.class);
             i.putExtra("phone_no", s_phoneNum);
             context.startActivity(i);
+        }
+        else if (result.equals("Item Added!")){
+
         }
         else {
             // Displays login response to the user

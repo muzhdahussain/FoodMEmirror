@@ -7,6 +7,7 @@ package app.foodme;
  */
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -25,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -62,6 +64,8 @@ public class CustomerMenu extends AppCompatActivity {
     String roomNum;
     String notes;
     String phone_no;
+    String orderNum;
+    ArrayList<OrderItem> orderItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -370,13 +374,31 @@ public class CustomerMenu extends AppCompatActivity {
         roomNum = et_roomNum.getText().toString();
         notes = et_notes.getText().toString();
 
-        // Default apprOrDen value is A (payment system is not implemented)
-        // Status is set to 1, which indicates the order is awaiting a deliverer
+        if (paymentType.equals("") || building.equals("") || roomNum.equals("")){
+            Toast.makeText(CustomerMenu.this, "Please fill out all required information! (Notes are optional)", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            // Default apprOrDen value is A (payment system is not implemented)
+            // Status is set to 1, which indicates the order is awaiting a deliverer
+            // Sends customer order information to BackgroundWorker for processing
+            BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+            backgroundWorker.execute("order_submit", paymentType, "A", building, roomNum, "1", phone_no, customerSelection.getCampusID(), notes);
 
-        // Sends customer order information to BackgroundWorker for processing
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute("order_submit", paymentType, "A", building, roomNum, "1", phone_no, customerSelection.getCampusID(), notes);
+            orderNum = backgroundWorker.retrievedOrderNum;
+            // Loops through order items and submits them to the database
+            orderItems = order.getOrderItems();
 
+            // TODO: Dynamically retrieve actual order number
+            orderNum = "21";
+
+            OrderItem orderItem;
+            Iterator<OrderItem> iterator = orderItems.iterator();
+
+            while (iterator.hasNext()) {
+                orderItem = iterator.next();
+                backgroundWorker = new BackgroundWorker(this);
+                backgroundWorker.execute("item_submit", orderNum, orderItem.getMenuItemID(), orderItem.getMenuID(), orderItem.getVendorID(), customerSelection.getCampusID(), "1");
+            }
+        }
     }
-
 }

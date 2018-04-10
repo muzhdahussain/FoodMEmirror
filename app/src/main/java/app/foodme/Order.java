@@ -20,6 +20,11 @@ public class Order extends AppCompatActivity{
         this.orderItems = new ArrayList<>();
     }
 
+    // Retrieves the list of order items
+    public ArrayList getOrderItems(){
+        return orderItems;
+    }
+
     // Retrieves a string containing a list of all items in the order
     public String retrieveItems(){
         if (orderItems.isEmpty()){
