@@ -36,6 +36,7 @@ public class EmpViewOrder extends AppCompatActivity {
     JsonArrayRequest jsonArrayRequest;
     RequestQueue requestQueue;
     String orderID;
+    String orderView;
     String http_json_url;
 
     String campus;
@@ -64,10 +65,12 @@ public class EmpViewOrder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emp_view_order);
-
+        btnComplete = findViewById(R.id.buttonComplete);
+        btnStart = findViewById(R.id.buttonStart);
 
         divider = " - ";
         orderID = getIntent().getStringExtra("ORDER_ID");
+        orderView = getIntent().getStringExtra("ORDER_VIEW");
         http_json_url = "http://70.77.241.161:8080/get_order.php?order_id=" + orderID;
 
 
@@ -97,11 +100,13 @@ public class EmpViewOrder extends AppCompatActivity {
 
                         } else if (campusID.equals("2")) {
 
-                            btnStart.setVisibility(View.INVISIBLE);
-                            btnComplete.setVisibility(View.INVISIBLE);
                             campus = "MRU";
                         }
 
+                        if (orderView.equals("2")){
+                           btnStart.setVisibility(View.GONE);
+                           btnComplete.setVisibility(View.GONE);
+                        }
 
                         //Set the text fields in the activity
 
@@ -159,6 +164,8 @@ public class EmpViewOrder extends AppCompatActivity {
                 vendorRoomNum = json.getString("Vendor_Room_Num");
                 itemName = json.getString("Menu_Item_Item_Name");
                 itemQuantity = json.getString("Item_Quantity");
+
+
 
 
             } catch (JSONException e) {

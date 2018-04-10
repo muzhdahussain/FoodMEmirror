@@ -26,7 +26,7 @@ public class EmpMenu extends AppCompatActivity {
 
         Intent i = new Intent(this,EmpOrders.class);
         i.putExtra("EMP_SIN", empSin);
-        i.putExtra("ORDER_FLAG", 1);
+        i.putExtra("ORDER_FLAG", "1");
         startActivity(i);
     }
 
@@ -34,7 +34,7 @@ public class EmpMenu extends AppCompatActivity {
 
         Intent i = new Intent(this,EmpOrders.class);
         i.putExtra("EMP_SIN", empSin);
-        i.putExtra("ORDER_FLAG", 2);
+        i.putExtra("ORDER_FLAG", "2");
         startActivity(i);
     }
 }

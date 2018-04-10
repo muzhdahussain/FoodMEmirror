@@ -35,7 +35,7 @@ public class EmpOrders extends AppCompatActivity {
     ProgressBar progressBar;
 
     String empSin;
-    int orderView = 0;
+    String orderView;
     String http_json_url = databaseURL + "/emp_orders.php";
 
     JsonArrayRequest jsonArrayRequest;
@@ -62,7 +62,7 @@ public class EmpOrders extends AppCompatActivity {
 
         //get values passes from the two previous menus
         empSin = getIntent().getStringExtra("EMP_SIN");
-        orderView = getIntent().getIntExtra("ORDER_FLAG", 0);
+        orderView = getIntent().getStringExtra("ORDER_FLAG");
 
 
         itemList = new ArrayList<>();
@@ -75,11 +75,11 @@ public class EmpOrders extends AppCompatActivity {
         itemIDs = new ArrayList<>();
 
 
-        if (orderView == 1) {
+        if (orderView.equals("1")) {
 
             http_json_url += ORDER_URL;
             http_json_url += empSin;
-        } else if (orderView == 2) {
+        } else if (orderView.equals("2")) {
 
             http_json_url += ORDER_HISTORY_URL;
             http_json_url += empSin;
@@ -198,6 +198,7 @@ public class EmpOrders extends AppCompatActivity {
 
             Intent i;
             i = new Intent(this, EmpViewOrder.class);
+            i.putExtra("ORDER_VIEW", orderView);
             i.putExtra("ORDER_ID", orderID);
             startActivity(i);
         }
