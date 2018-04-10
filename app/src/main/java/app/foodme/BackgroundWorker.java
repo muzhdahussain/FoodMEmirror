@@ -29,6 +29,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     Context context;
     AlertDialog alertDialog;
     String empSIN;
+    String s_phoneNum;
     String orderID;
 
     BackgroundWorker(Context ctx) {
@@ -52,6 +53,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             try {
                 // Retrieves phone number entered by the customer
                 String phoneNum = params[1];
+                s_phoneNum= params[1];
 
                 // Makes HTTP connection to the php site
                 URL url = new URL(login_url);
@@ -178,7 +180,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
 
-        } else if (type == "order in progress") {
+        } else if (type.equals("order in progress")) {
 
             orderID = params[1];
 
@@ -226,7 +228,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             }
 
         }
-        else if(type == "order completed"){
+        else if(type.equals("order completed")){
 
             orderID = params[1];
 
@@ -284,6 +286,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         if (result.equals("Login successful!!")) {
             Intent i = new Intent(context, CustOptions.class);
+            i.putExtra("phone_no", s_phoneNum );
             context.startActivity(i);
 
         } else if (result.equals("Employee login successful!!")) {
