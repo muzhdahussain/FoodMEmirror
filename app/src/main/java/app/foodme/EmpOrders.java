@@ -27,7 +27,6 @@ import java.util.List;
 public class EmpOrders extends AppCompatActivity {
 
 
-
     String databaseURL = "http://70.77.241.161:8080";
     List<Item> itemList;
     RecyclerView recyclerView;
@@ -37,21 +36,22 @@ public class EmpOrders extends AppCompatActivity {
 
     String empSin;
     int orderView = 0;
-    String http_json_url = databaseURL + "/emp_orders.php?type=orders&empSin=";
+    String http_json_url = databaseURL + "/emp_orders.php";
 
-    JsonArrayRequest jsonArrayRequest ;
-    RequestQueue requestQueue ;
-    View ChildView ;
-    int GetItemPosition ;
+    JsonArrayRequest jsonArrayRequest;
+    RequestQueue requestQueue;
+    View ChildView;
+    int GetItemPosition;
     ArrayList<String> itemIDs;
-
-
+    String orderID;
+    String ORDER_URL = "?type=orders&empSin=";
+    String ORDER_HISTORY_URL = "?type=orderHistory&empSin=";
 
     // Represents the column name we want to retrieve to display from the query
     String JSON_NAME = "Building";
     // Represents the column name we want to retrieve for tracking from the query
     String JSON_ID = "Order_Num";
-
+    // Represents if the customer is currently selecting menu items or not
     boolean itemSelection = false;
 
 
@@ -59,8 +59,10 @@ public class EmpOrders extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emp_orders);
+
+        //get values passes from the two previous menus
         empSin = getIntent().getStringExtra("EMP_SIN");
-        orderView = getIntent().getIntExtra("ORDER_FLAG",0);
+        orderView = getIntent().getIntExtra("ORDER_FLAG", 0);
 
 
         itemList = new ArrayList<>();
@@ -75,15 +77,13 @@ public class EmpOrders extends AppCompatActivity {
 
         if (orderView == 1) {
 
-            http_json_url += "?type=orders&empSin=";
+            http_json_url += ORDER_URL;
+            http_json_url += empSin;
+        } else if (orderView == 2) {
+
+            http_json_url += ORDER_HISTORY_URL;
             http_json_url += empSin;
         }
-        else if(orderView == 2){
-
-            http_json_url += "?type=orderHistory&empSin=";
-            http_json_url += empSin;
-        }
-
 
 
         JsonDataWebCall();
@@ -92,7 +92,8 @@ public class EmpOrders extends AppCompatActivity {
 
             GestureDetector gestureDetector = new GestureDetector(EmpOrders.this, new GestureDetector.SimpleOnGestureListener() {
 
-                @Override public boolean onSingleTapUp(MotionEvent motionEvent) {
+                @Override
+                public boolean onSingleTapUp(MotionEvent motionEvent) {
                     return true;
                 }
             });
@@ -102,15 +103,21 @@ public class EmpOrders extends AppCompatActivity {
 
                 ChildView = Recyclerview.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
 
-                if(ChildView != null && gestureDetector.onTouchEvent(motionEvent)) {
+                if (ChildView != null && gestureDetector.onTouchEvent(motionEvent)) {
 
                     GetItemPosition = Recyclerview.getChildAdapterPosition(ChildView);
+
+                    orderID = (itemIDs.get(GetItemPosition));
+                    //  Toast.makeText(EmpOrders.this,itemList.getItemName() , Toast.LENGTH_LONG).show();
+
                 }
                 return false;
             }
 
+
             @Override
             public void onTouchEvent(RecyclerView Recyclerview, MotionEvent motionEvent) {
+
 
             }
 
@@ -120,8 +127,9 @@ public class EmpOrders extends AppCompatActivity {
             }
         });
     }
+
     // Sets up the web call to the database
-    public void JsonDataWebCall(){
+    public void JsonDataWebCall() {
 
         jsonArrayRequest = new JsonArrayRequest(http_json_url,
 
@@ -148,7 +156,7 @@ public class EmpOrders extends AppCompatActivity {
 
     // Parses the data retrieved from the database
     public void JsonParseDataAfterWebCall(JSONArray array) {
-        for(int i = 0; i<array.length(); i++) {
+        for (int i = 0; i < array.length(); i++) {
 
             // An item represents a tuple retrieved from the database
             Item GetDataAdapter2 = new Item();
@@ -159,9 +167,12 @@ public class EmpOrders extends AppCompatActivity {
 
                 // Sets the tuple's name (what is displayed in the menu)
                 GetDataAdapter2.setItemName(json.getString(JSON_NAME));
+
+
                 // Sets the tuple's identifier (what is stored for future retrieval)
                 GetDataAdapter2.setItemID(json.getString(JSON_ID));
                 itemIDs.add(json.getString(JSON_ID));
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -175,10 +186,20 @@ public class EmpOrders extends AppCompatActivity {
 
     }
 
+    //Check to see if employye corenctyu selected order, and send them to new acitvity
 
+    public void showOrder(View view) {
 
-  /* public void ReturnToEmp(View view){
-        startActivity(new Intent(this,EmpMenu.class));
+        if (orderID == null) {
+
+            Toast.makeText(EmpOrders.this, "Select An Order", Toast.LENGTH_LONG).show();
+
+        } else {
+
+            Intent i;
+            i = new Intent(this, EmpViewOrder.class);
+            i.putExtra("ORDER_ID", orderID);
+            startActivity(i);
+        }
     }
-*/
 }

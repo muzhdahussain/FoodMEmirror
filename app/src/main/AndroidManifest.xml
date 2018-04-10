@@ -32,10 +32,13 @@
         <activity
             android:name=".EmpMenu"
             android:screenOrientation="portrait" />
-        <activity android:name=".CustOptions"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".EmpOrders"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CustOptions"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EmpOrders"
+            android:screenOrientation="portrait" />
+        <activity android:name=".EmpViewOrder"></activity>
     </application>
 
 </manifest>

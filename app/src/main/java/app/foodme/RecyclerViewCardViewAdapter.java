@@ -20,6 +20,7 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
     Context context;
     List<Item> itemList;
 
+
     public RecyclerViewCardViewAdapter(List<Item> getDataAdapter, Context context){
 
         super();
@@ -40,6 +41,8 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
         Item getDataAdapter1 =  itemList.get(position);
         holder.itemName.setText(getDataAdapter1.getItemName());
+
+
 
     }
 

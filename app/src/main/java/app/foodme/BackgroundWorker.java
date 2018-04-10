@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -16,9 +19,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 /**
- *
  * This file sends login/registration information to the php site for verification.
- *
+ * <p>
  * Portions of code adapted from the tutorial series found at: https://www.youtube.com/watch?v=HK515-8-Q_w
  */
 
@@ -27,6 +29,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     Context context;
     AlertDialog alertDialog;
     String empSIN;
+    String orderID;
 
     BackgroundWorker(Context ctx) {
         context = ctx;
@@ -46,7 +49,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         // Handles customer login requests
         if (type.equals("cust_login")) {
-        try {
+            try {
                 // Retrieves phone number entered by the customer
                 String phoneNum = params[1];
 
@@ -86,7 +89,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
 
-        // Handles customer registration requests
+            // Handles customer registration requests
         } else if (type.equals("register")) {
             try {
                 // Retrieves registration variables entered by the user
@@ -132,7 +135,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
 
-        // Handles employee login requests
+            // Handles employee login requests
         } else if (type.equals("emp_login")) {
 
             try {
@@ -174,9 +177,101 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+        } else if (type == "order in progress") {
+
+            orderID = params[1];
+
+            try {
+
+                String updateOrderUrl = "http://70.77.241.161:8080/update_order_status.php";
+                // Makes HTTP connection to the php site
+                URL url = new URL(updateOrderUrl);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setDoOutput(true);
+
+                // Creates output streams
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+
+                // Sends order submission details to php script
+                String postData = URLEncoder.encode("status", "UTF-8") + "=" + URLEncoder.encode("2", "UTF-8") + "&"
+                        + URLEncoder.encode("order_id", "UTF-8") + "=" + URLEncoder.encode(orderID, "UTF-8");
+                bufferedWriter.write(postData);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+
+                // Creates input streams
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+
+                // Reads response from the php site, which includes the order number for the inserted order
+                String result = "";
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+
+                return result;
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else if(type == "order completed"){
+
+            orderID = params[1];
+
+            try {
+                String updateOrderUrl = "http://70.77.241.161:8080/update_order_status.php?";
+                // Makes HTTP connection to the php site
+                URL url = new URL(updateOrderUrl);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setDoOutput(true);
+
+                // Creates output streams
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+
+                String postData = URLEncoder.encode("status", "UTF-8") + "=" + URLEncoder.encode("3", "UTF-8") + "&"
+                        + URLEncoder.encode("order_id", "UTF-8") + "=" + URLEncoder.encode(orderID, "UTF-8");
+                bufferedWriter.write(postData);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+
+                // Creates input streams
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+
+                // Reads response from the php site
+                String result = "";
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return result;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
+
 
     @Override
     protected void onPreExecute() {
@@ -191,14 +286,12 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             Intent i = new Intent(context, CustOptions.class);
             context.startActivity(i);
 
-        }
-        else if(result.equals("Employee login successful!!")){
+        } else if (result.equals("Employee login successful!!")) {
             Intent i = new Intent(context, EmpMenu.class);
             //pass the empSin thought activity's
             i.putExtra("EMP_SIN", empSIN);
             context.startActivity(i);
-        }
-        else {
+        } else {
             // Displays login response to the user
             alertDialog.setMessage(result);
             alertDialog.show();

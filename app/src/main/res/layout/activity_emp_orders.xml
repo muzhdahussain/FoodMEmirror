@@ -20,7 +20,17 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView2"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="415dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="198dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="29dp"
+        android:onClick="showOrder"
+        android:text="Confirm Selection" />
 
 
 </RelativeLayout>

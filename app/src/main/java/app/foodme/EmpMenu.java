@@ -12,7 +12,7 @@ import android.view.View;
 public class EmpMenu extends AppCompatActivity {
 
     String empSin;
-    int orderViewFlag; //1 for orders 2 for order history
+    int orderViewFlag; //1 for orders 2 for order history to track which view user is in
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
