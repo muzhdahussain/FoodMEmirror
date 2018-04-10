@@ -7,15 +7,15 @@
     tools:context="app.foodme.CustomerMenu">
 
     <Button
-        android:id="@+id/btn_back"
+        android:id="@+id/btn_review"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="9dp"
-        android:text="Back"
-        android:onClick="ReturnToLogin"/>
+        android:layout_marginTop="12dp"
+        android:onClick="reviewOrder"
+        android:text="Review Order"
+        android:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -29,7 +29,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView1"
         android:layout_width="fill_parent"
-        android:layout_below="@+id/btn_back"
-        android:layout_height="fill_parent" />
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

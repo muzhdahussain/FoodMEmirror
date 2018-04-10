@@ -32,4 +32,11 @@ public class CustOptions extends AppCompatActivity {
 
 
     }
+
+    // Overrides default back button action to return to the main screen
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
 }
