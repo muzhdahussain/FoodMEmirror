@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Initiates employee login activity
     public void Emp_Login(View view){
+
         startActivity(new Intent(this,EmpLogin.class));
     }
 
