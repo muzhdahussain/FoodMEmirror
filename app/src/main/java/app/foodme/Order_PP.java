@@ -1,13 +1,16 @@
 package app.foodme;
 
 import android.app.MediaRouteButton;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,12 +58,14 @@ public class Order_PP extends AppCompatActivity {
     String payment;
     String campusID;
     String notes;
-
+    String phone_num;
+    String orderStatus;
 
     String vendor;
     String itemName;
     String itemQuantity;
     String[] orderString;
+
 
     TextView text_OrderNum;
     TextView text_PaymentType;
@@ -171,8 +176,9 @@ public class Order_PP extends AppCompatActivity {
                 building = json.getString("Building");
                 roomNum = json.getString("Room_Num");
                 payment = json.getString("Payment_Type");
-
+                phone_num = json.getString("Customer_Phone_Num");
                 notes = json.getString("Notes");
+                orderStatus = json.getString("Status");
 
 
 
@@ -188,6 +194,20 @@ public class Order_PP extends AppCompatActivity {
 
         }
 
+
+    }
+
+    // Handles the click of the rate order button
+    public void rateOrder(View view){
+        if ((orderStatus.equals("3"))){
+            Intent i = new Intent(this, CustomerRating.class);
+            i.putExtra("orderID", orderID);
+            i.putExtra("custPhone", phone_num);
+            startActivity(i);
+        }
+        else {
+            Toast.makeText(Order_PP.this, "Selected order is not available to be rated at this time.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

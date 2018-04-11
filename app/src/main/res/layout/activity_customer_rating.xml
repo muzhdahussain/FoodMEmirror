@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="app.foodme.CustomerRating">
+
+    <EditText
+        android:id="@+id/et_notes2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_submitRating"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="59dp"
+        android:ems="10"
+        android:hint="Notes"
+        android:inputType="textPersonName" />
+
+    <RatingBar
+        android:id="@+id/rb_food"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_above="@+id/rb_delivery"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="56dp" />
+
+    <RatingBar
+        android:id="@+id/rb_delivery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/et_notes2"
+        android:layout_alignStart="@+id/rb_food"
+        android:layout_marginBottom="42dp" />
+
+    <Button
+        android:id="@+id/btn_submitRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="65dp"
+        android:text="Submit"
+        android:onClick="submitRating"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:text="Food Rating"
+        android:layout_above="@+id/rb_food"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rb_delivery"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:text="Delivery Rating"
+        android:textSize="18sp" />
+</RelativeLayout>

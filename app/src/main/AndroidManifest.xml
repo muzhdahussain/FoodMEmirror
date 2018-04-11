@@ -41,12 +41,13 @@
         <activity
             android:name=".EmpOrders"
             android:screenOrientation="portrait" />
-        <activity android:name=".CustomerHistory"
-                 android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CustomerHistory"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".EmpViewOrder"
-            android:screenOrientation="portrait"
-            ></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".CustomerRating"></activity>
     </application>
 
 </manifest>
