@@ -104,6 +104,7 @@ public class CustomerHistory extends AppCompatActivity {
 
                    // Toast.makeText(CustomerHistory.this, SubjectNames.get(GetItemPosition), Toast.LENGTH_LONG).show();
                     orderID = (itemIDs.get(GetItemPosition));
+                    Toast.makeText(CustomerHistory.this, "Order " +  orderID + " Selected", Toast.LENGTH_LONG).show();
                 }
 
                 return false;

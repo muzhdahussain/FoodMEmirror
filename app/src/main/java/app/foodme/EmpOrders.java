@@ -108,7 +108,7 @@ public class EmpOrders extends AppCompatActivity {
                     GetItemPosition = Recyclerview.getChildAdapterPosition(ChildView);
 
                     orderID = (itemIDs.get(GetItemPosition));
-                    //  Toast.makeText(EmpOrders.this,itemList.getItemName() , Toast.LENGTH_LONG).show();
+                    Toast.makeText(EmpOrders.this, "Order " +  orderID + " Selected", Toast.LENGTH_LONG).show();
 
                 }
                 return false;
