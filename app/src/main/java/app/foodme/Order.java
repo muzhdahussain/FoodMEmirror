@@ -34,7 +34,8 @@ public class Order extends AppCompatActivity{
             String items = "";
             Iterator<OrderItem> iterator = orderItems.iterator();
             while (iterator.hasNext()) {
-                items = items + iterator.next().getMenuItemID() + "\n";
+                OrderItem next = iterator.next();
+                items = items + next.getMenuItemID() + " x" + next.getQuantity() + "\n";
             }
             return items;
         }
@@ -66,6 +67,22 @@ public class Order extends AppCompatActivity{
 
     // Adds an item to an order
     public void addItem(OrderItem orderItem) {
-        this.orderItems.add(orderItem);
+
+        // Checks if an identical item is already in the order, adds to the order list if not, increases the quantity if it is
+        boolean matchFound = false;
+
+        Iterator<OrderItem> iterator = orderItems.iterator();
+        while (iterator.hasNext()) {
+            OrderItem next = iterator.next();
+            if (next.getVendorID().equals(orderItem.getVendorID()) && next.getMenuID().equals(orderItem.getMenuID()) && next.getMenuItemID().equals(orderItem.getMenuItemID())) {
+                next.incrementQuantity();
+                matchFound = true;
+                break;
+            }
+        }
+
+        if (!matchFound){
+            this.orderItems.add(orderItem);
+        }
     }
 }

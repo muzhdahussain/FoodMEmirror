@@ -203,8 +203,9 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                         + URLEncoder.encode("room_num", "UTF-8") + "=" + URLEncoder.encode(params[4], "UTF-8") + "&"
                         + URLEncoder.encode("status", "UTF-8") + "=" + URLEncoder.encode(params[5], "UTF-8") + "&"
                         + URLEncoder.encode("cust_phone", "UTF-8") + "=" + URLEncoder.encode(params[6], "UTF-8") + "&"
-                        + URLEncoder.encode("campus_id", "UTF-8") + "=" + URLEncoder.encode(params[7], "UTF-8") + "&"
-                        + URLEncoder.encode("notes", "UTF-8") + "=" + URLEncoder.encode(params[8], "UTF-8");
+                        + URLEncoder.encode("emp_sin", "UTF-8") + "=" + URLEncoder.encode(params[7], "UTF-8") + "&"
+                        + URLEncoder.encode("campus_id", "UTF-8") + "=" + URLEncoder.encode(params[8], "UTF-8") + "&"
+                        + URLEncoder.encode("notes", "UTF-8") + "=" + URLEncoder.encode(params[9], "UTF-8");
 
                 bufferedWriter.write(postData);
                 bufferedWriter.flush();
@@ -245,11 +246,11 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
                     // Sends order item submission details to php script
                     postData = URLEncoder.encode("order_num", "UTF-8") + "=" + URLEncoder.encode(retrievedOrderNum, "UTF-8") + "&"
-                            + URLEncoder.encode("item_name", "UTF-8") + "=" + URLEncoder.encode(orderItem.menuItemID, "UTF-8") + "&"
-                            + URLEncoder.encode("menu_name", "UTF-8") + "=" + URLEncoder.encode(orderItem.menuID, "UTF-8") + "&"
-                            + URLEncoder.encode("vendor_id", "UTF-8") + "=" + URLEncoder.encode(orderItem.vendorID, "UTF-8") + "&"
-                            + URLEncoder.encode("campus_id", "UTF-8") + "=" + URLEncoder.encode(params[7], "UTF-8") + "&"
-                            + URLEncoder.encode("quantity", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+                            + URLEncoder.encode("item_name", "UTF-8") + "=" + URLEncoder.encode(orderItem.getMenuItemID(), "UTF-8") + "&"
+                            + URLEncoder.encode("menu_name", "UTF-8") + "=" + URLEncoder.encode(orderItem.getMenuID(), "UTF-8") + "&"
+                            + URLEncoder.encode("vendor_id", "UTF-8") + "=" + URLEncoder.encode(orderItem.getVendorID(), "UTF-8") + "&"
+                            + URLEncoder.encode("campus_id", "UTF-8") + "=" + URLEncoder.encode(params[8], "UTF-8") + "&"
+                            + URLEncoder.encode("quantity", "UTF-8") + "=" + URLEncoder.encode(orderItem.getQuantity(), "UTF-8");
 
                     bufferedWriter.write(postData);
                     bufferedWriter.flush();

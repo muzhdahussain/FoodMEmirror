@@ -383,7 +383,7 @@ public class CustomerMenu extends AppCompatActivity {
                 backgroundWorker.orderItems.add(orderItem);
             }
 
-            backgroundWorker.execute("order_submit", paymentType, "A", building, roomNum, "1", phone_no, customerSelection.getCampusID(), notes);
+            backgroundWorker.execute("order_submit", paymentType, "A", building, roomNum, "1", phone_no, assignEmployee(), customerSelection.getCampusID(), notes);
         }
     }
 
@@ -393,11 +393,13 @@ public class CustomerMenu extends AppCompatActivity {
         // For demonstration purposes, the assignment is hardcoded. As the current implementation of the application does not allow for modification of employees in the system.
 
         if (customerSelection.getCampusID().equals("1")){
-            return "1";
+            return "111111111";
         }
 
         else {
-            return "2";
+            return "333333333";
         }
     }
+
+
 }
