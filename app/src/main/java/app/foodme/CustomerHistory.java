@@ -1,5 +1,6 @@
 package app.foodme;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +20,7 @@ import java.util.List;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.Toast;
-
+//http://tekeye.uk/android/examples/ui/android-popup-window using
 public class CustomerHistory extends AppCompatActivity {
 
     List<Item> itemList;
@@ -38,10 +39,19 @@ public class CustomerHistory extends AppCompatActivity {
     // Represents the column name we want to retrieve for tracking from the query
     String phone_no;
 
+    String orderID;
     // Represents the column name we want to retrieve to display from the query
     String GET_JSON_Order_Num = "Order_Num";
-    String GET_JSON_FROM_SERVER_NAME2 = "Payment_Type";
-    String GET_JSON_FROM_SERVER_NAME3 = "App_or_Den";
+    String GET_JSON_App_or_Den = "App_or_Den";
+    String GET_JSON_Payment_type= "Payment_Type";
+    String GET_JSON_Building= "Building";
+    String GET_JSON_Room_Num= "Room_Num";
+    String GET_JSON_Status= "Status";
+    String GET_JSON_Employee_SIN= "Employee_SIN";
+    String GET_JSON_Campus_Campus_ID= "Campus_Campus_ID";
+    String GET_JSON_Notes= "Notes";
+
+
 
 
     JsonArrayRequest jsonArrayRequest ;
@@ -67,6 +77,7 @@ public class CustomerHistory extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         itemIDs = new ArrayList<>();
 
+
         JSON_DATA_WEB_CALL();
 
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
@@ -89,7 +100,10 @@ public class CustomerHistory extends AppCompatActivity {
                     GetItemPosition = Recyclerview.getChildAdapterPosition(ChildView);
 
                     //TODO Add scrollable popup to display all order information
+                    //itemID[i]= order number, i corresponds to its index on screen = GetItemPosition
+
                    // Toast.makeText(CustomerHistory.this, SubjectNames.get(GetItemPosition), Toast.LENGTH_LONG).show();
+                    orderID = (itemIDs.get(GetItemPosition));
                 }
 
                 return false;
@@ -161,49 +175,21 @@ public class CustomerHistory extends AppCompatActivity {
         recyclerView.setAdapter(recyclerViewadapter);
 
     }
-}
 
-    /////////////////////
-    /*
-    String databaseURL = "http://70.77.241.161:8080";
-    List<Item> itemList;
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager recyclerViewlayoutManager;
-    RecyclerView.Adapter recyclerViewadapter;
-    ProgressBar progressBar;
-    ListView c_order_ListView;
+    public void showOrder(View view) {
 
-    String phone_no;
-    int orderView = 0;
-    String http_json_url = databaseURL + "/customer_history.php";
+        if (orderID == null) {
 
-    JsonArrayRequest jsonArrayRequest ;
-    RequestQueue requestQueue ;
-    View ChildView ;
-    int GetItemPosition ;
-    ArrayList<String> itemIDs;
+            Toast.makeText(CustomerHistory.this, "Select An Order", Toast.LENGTH_LONG).show();
 
+        } else {
 
-
-    // Represents the column name we want to retrieve to display from the query
-    String JSON_NAME = "Building";
-    // Represents the column name we want to retrieve for tracking from the query
-    String JSON_ID = "Order_Num";
-
-    boolean itemSelection = false;
-
-
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_history);
-        c_order_ListView= (ListView) findViewById(R.id.recyclerView3);
-        progressBar= (ProgressBar) findViewById(R.id.recyclerView4);
-        new GetHttpResponse (CustomerHistory.this).execute();
-
+            Intent i;
+            i = new Intent(this, Order_PP.class);
+           // i.putExtra("ORDER_VIEW", orderView);
+            i.putExtra("ORDER_ID", orderID);
+            startActivity(i);
+        }
     }
 }
 
-*/

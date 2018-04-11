@@ -36,6 +36,9 @@
             android:name=".CustOptions"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Order_PP"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".EmpOrders"
             android:screenOrientation="portrait" />
         <activity android:name=".CustomerHistory"
