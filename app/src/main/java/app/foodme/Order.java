@@ -71,6 +71,7 @@ public class Order extends AppCompatActivity{
         // Checks if an identical item is already in the order, adds to the order list if not, increases the quantity if it is
         boolean matchFound = false;
 
+
         Iterator<OrderItem> iterator = orderItems.iterator();
         while (iterator.hasNext()) {
             OrderItem next = iterator.next();
@@ -81,7 +82,7 @@ public class Order extends AppCompatActivity{
             }
         }
 
-        if (!matchFound){
+        if (!matchFound || orderItems.size() == 0){
             this.orderItems.add(orderItem);
         }
     }
