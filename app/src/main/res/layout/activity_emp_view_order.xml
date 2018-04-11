@@ -6,7 +6,19 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txtView5"
+        android:id="@+id/orderLocation"
+
+        android:layout_width="335dp"
+        android:layout_height="29dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="203dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -30,37 +42,13 @@
 
 
     <TextView
-        android:id="@+id/vendorInfo"
-
-        android:layout_width="341dp"
-        android:layout_height="43dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="166dp"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/itemInfo"
-
-        android:layout_width="341dp"
-        android:layout_height="43dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="103dp"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
         android:id="@+id/notes"
 
-        android:layout_width="341dp"
-        android:layout_height="43dp"
-        android:layout_alignParentTop="true"
+        android:layout_width="338dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="173dp"
+        android:layout_marginBottom="116dp"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -68,21 +56,11 @@
     <TextView
         android:id="@+id/custPhone"
 
-        android:layout_width="341dp"
-        android:layout_height="43dp"
-        android:layout_centerInParent="true"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/orderLocation"
-
-        android:layout_width="341dp"
-        android:layout_height="43dp"
+        android:layout_width="338dp"
+        android:layout_height="30dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="158dp"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -100,6 +78,13 @@
         android:text="Start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="337dp"
+        android:layout_height="193dp"
+        android:layout_below="@+id/Title"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

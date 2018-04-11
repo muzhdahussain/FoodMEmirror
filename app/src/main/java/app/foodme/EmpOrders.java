@@ -48,7 +48,7 @@ public class EmpOrders extends AppCompatActivity {
     String ORDER_HISTORY_URL = "?type=orderHistory&empSin=";
 
     // Represents the column name we want to retrieve to display from the query
-    String JSON_NAME = "Building";
+    String JSON_NAME = "Order # ";
     // Represents the column name we want to retrieve for tracking from the query
     String JSON_ID = "Order_Num";
     // Represents if the customer is currently selecting menu items or not
@@ -166,7 +166,7 @@ public class EmpOrders extends AppCompatActivity {
                 json = array.getJSONObject(i);
 
                 // Sets the tuple's name (what is displayed in the menu)
-                GetDataAdapter2.setItemName(json.getString(JSON_NAME));
+                GetDataAdapter2.setItemName(JSON_NAME + json.getString(JSON_ID));
 
 
                 // Sets the tuple's identifier (what is stored for future retrieval)

@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class EmpViewOrder extends AppCompatActivity {
@@ -50,12 +55,17 @@ public class EmpViewOrder extends AppCompatActivity {
     String vendorRoomNum;
     String itemName;
     String itemQuantity;
+
+    List<EmpOrderInfo> orderInfo;
+
     String divider;
+    ListView allOrders;
+    String[] onlyOrderInfo;
+
 
     TextView orderLocation;
     TextView phoneNum;
     TextView notesTV;
-    TextView vendorInfo;
     TextView foodInfo;
 
     Button btnComplete;
@@ -67,6 +77,7 @@ public class EmpViewOrder extends AppCompatActivity {
         setContentView(R.layout.activity_emp_view_order);
         btnComplete = findViewById(R.id.buttonComplete);
         btnStart = findViewById(R.id.buttonStart);
+        orderInfo = new ArrayList<>();
 
         divider = " - ";
         orderID = getIntent().getStringExtra("ORDER_ID");
@@ -78,8 +89,6 @@ public class EmpViewOrder extends AppCompatActivity {
 
         JsonDataWebCall();
 
-        //btnStart.setVisibility(View.VISIBLE);
-        // btnComplete.setVisibility(View.VISIBLE);
 
     }
 
@@ -95,10 +104,10 @@ public class EmpViewOrder extends AppCompatActivity {
 
                         JsonParseDataAfterWebCall(response);
 
-                        if (campusID.equals("1")) {
+                        if (orderInfo.get(0).getCampusID().equals("1")) {
                             campus = "U of C";
 
-                        } else if (campusID.equals("2")) {
+                        } else if (orderInfo.get(0).getCampusID().equals("2")) {
 
                             campus = "MRU";
                         }
@@ -108,22 +117,34 @@ public class EmpViewOrder extends AppCompatActivity {
                            btnComplete.setVisibility(View.GONE);
                         }
 
+
+
+
+
+                        //Take this info from just the first element of the list as they are all the same
+                        custPhoneNum = orderInfo.get(0).getCustPhoneNum();
+
+                        notes = orderInfo.get(0).getNotes();
+                        building = orderInfo.get(0).getBuilding();
+                        roomNum = orderInfo.get(0).getRoomNum();
+
                         //Set the text fields in the activity
 
+
+                        setListView();
+
+
                         TextView orderLocationTV = (TextView) findViewById(R.id.orderLocation);
-                        orderLocationTV.setText(campus + divider + building + divider + roomNum);
+                        orderLocationTV.setText("Deliver To: " + campus + divider + building + divider + roomNum);
 
                         TextView phoneNum = (TextView) findViewById(R.id.custPhone);
                         phoneNum.setText(custPhoneNum);
 
-                        TextView notesTV = (TextView) findViewById(R.id.notes);
-                        notesTV.setText(notes);
+                        if (notes == null) {
+                            TextView notesTV = (TextView) findViewById(R.id.notes);
+                            notesTV.setText(notes);
+                        }
 
-                        TextView vendorInfo = (TextView) findViewById(R.id.vendorInfo);
-                        vendorInfo.setText(vendor + divider + vendorBuilding + divider + vendorRoomNum);
-
-                        TextView foodInfo = (TextView) findViewById(R.id.itemInfo);
-                        foodInfo.setText(itemName + " X " + itemQuantity);
                     }
                 },
                 new Response.ErrorListener() {
@@ -151,21 +172,25 @@ public class EmpViewOrder extends AppCompatActivity {
 
                 // Sets the varibles of the order to be displayed
 
-
-                building = json.getString("Building");
-                roomNum = json.getString("Room_Num");
-                campusID = json.getString("Campus_Campus_ID");
-
-                custPhoneNum = json.getString("Customer_Phone_Num");
-                notes = json.getString("Notes");
-
-                vendor = json.getString("Name");
-                vendorBuilding = json.getString("Vendor_Building");
-                vendorRoomNum = json.getString("Vendor_Room_Num");
-                itemName = json.getString("Menu_Item_Item_Name");
-                itemQuantity = json.getString("Item_Quantity");
+                EmpOrderInfo order = new EmpOrderInfo();
 
 
+                order.setBuilding(json.getString("Building"));
+                order.setRoomNum(json.getString("Room_Num"));
+                order.setCampusID(json.getString("Campus_Campus_ID"));
+                order.setCustPhoneNum("Phone Number: " + json.getString("Customer_Phone_Num"));
+
+                order.setNotes("Notes: " + json.getString("Notes"));
+                order.setVendor(json.getString("Name"));
+                order.setVendorBuilding(json.getString("Vendor_Building"));
+                order.setVendorRoomNum(json.getString("Vendor_Room_Num"));
+                order.setItemName(json.getString("Menu_Item_Item_Name"));
+                order.setItemQuantity(json.getString("Item_Quantity"));
+
+                order.setOrderVendorInfo(order.getVendor() + divider + order.getVendorBuilding() + divider + order.getVendorRoomNum() + System.lineSeparator() +
+                                         order.getItemName() + " X " + order.getItemQuantity() + System.lineSeparator());
+
+                orderInfo.add(order);
 
 
             } catch (JSONException e) {
@@ -175,6 +200,25 @@ public class EmpViewOrder extends AppCompatActivity {
         }
 
 
+    }
+
+    public void setListView(){
+
+        // Set the List view of the orders
+
+        onlyOrderInfo = new String[orderInfo.size()];
+
+        for (int counter = 0; counter < orderInfo.size(); counter++) {
+            onlyOrderInfo[counter] = orderInfo.get(counter).getOrderVendorInfo();
+        }
+
+        allOrders = (ListView) findViewById(R.id.listView1);
+
+        final ArrayAdapter<String> adapter;
+        adapter = new ArrayAdapter<String>(EmpViewOrder.this,android.R.layout.simple_list_item_1, onlyOrderInfo);
+
+
+        allOrders.setAdapter(adapter);
     }
 
     public void completeOrder(View view) {
