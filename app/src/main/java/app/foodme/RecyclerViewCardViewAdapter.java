@@ -22,7 +22,6 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
 
     public RecyclerViewCardViewAdapter(List<Item> getDataAdapter, Context context){
-
         super();
         this.itemList = getDataAdapter;
         this.context = context;
@@ -30,7 +29,6 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -38,12 +36,8 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         Item getDataAdapter1 =  itemList.get(position);
         holder.itemName.setText(getDataAdapter1.getItemName());
-
-
-
     }
 
     @Override
@@ -57,7 +51,6 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
         public TextView itemName;
 
         public ViewHolder(View itemView) {
-
             super(itemView);
             itemName = (TextView) itemView.findViewById(R.id.TextViewCard);
         }

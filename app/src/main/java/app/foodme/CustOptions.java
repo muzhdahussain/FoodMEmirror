@@ -7,19 +7,13 @@ import android.view.View;
 
 public class CustOptions extends AppCompatActivity {
 
-
     String phone_no;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cust_options);
-       // phone_no= getIntent().getExtras("s_phoneNum");
-
         phone_no = getIntent().getStringExtra("phone_no");
     }
-
-
-
 
     public void openCustomerMenu(View view){
         Intent i = new Intent(this, CustomerMenu.class);

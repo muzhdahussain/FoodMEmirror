@@ -3,8 +3,10 @@ package app.foodme;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.EditText;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * Starting screen for application.
@@ -31,9 +33,19 @@ public class MainActivity extends AppCompatActivity {
         String str_phoneNum = phoneNum.getText().toString();
         String type = "cust_login";
 
-        // Sends customer login information to BackgroundWorker for processing
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute(type, str_phoneNum);
+        // checks user input
+        // Regex expression used from: http://www.sitepoint.com/forums/showthread.php?204268-Regex-for-letters-numbers-and-spaces
+        if (str_phoneNum.matches("[a-z|A-Z|0-9|\\s]*")) {
+            // Sends customer login information to BackgroundWorker for processing
+            BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+            backgroundWorker.execute(type, str_phoneNum);
+        } else {
+            Toast toast = Toast.makeText(MainActivity.this, "WARNING: Please remove any special characters, and try again.", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+
+
     }
 
     // Initiates employee login activity

@@ -24,7 +24,8 @@
 
         android:layout_above="@+id/rb_delivery"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="56dp" />
+        android:layout_marginBottom="56dp"
+        android:stepSize="1.0" />
 
     <RatingBar
         android:id="@+id/rb_delivery"
@@ -32,7 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/et_notes2"
         android:layout_alignStart="@+id/rb_food"
-        android:layout_marginBottom="42dp" />
+        android:layout_marginBottom="42dp"
+        android:stepSize="1.0" />
 
     <Button
         android:id="@+id/btn_submitRating"

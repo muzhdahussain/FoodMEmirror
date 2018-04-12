@@ -6,26 +6,23 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class EmpOrders extends AppCompatActivity {
-
 
     String databaseURL = "http://70.77.241.161:8080";
     List<Item> itemList;
@@ -108,7 +105,9 @@ public class EmpOrders extends AppCompatActivity {
                     GetItemPosition = Recyclerview.getChildAdapterPosition(ChildView);
 
                     orderID = (itemIDs.get(GetItemPosition));
-                    Toast.makeText(EmpOrders.this, "Order " +  orderID + " Selected", Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(EmpOrders.this, "Order " +  orderID + " Selected", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
 
                 }
                 return false;
@@ -145,6 +144,9 @@ public class EmpOrders extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast toast = Toast.makeText(EmpOrders.this, "No Results Found!", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
 
                     }
                 });
@@ -186,13 +188,14 @@ public class EmpOrders extends AppCompatActivity {
 
     }
 
-    //Check to see if employye corenctyu selected order, and send them to new acitvity
-
+    //Check to see if employee correctly selected an order, and send them to new activity
     public void showOrder(View view) {
 
         if (orderID == null) {
 
-            Toast.makeText(EmpOrders.this, "Select An Order", Toast.LENGTH_LONG).show();
+            Toast toast = Toast.makeText(EmpOrders.this, "Please select an order.", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
 
         } else {
 

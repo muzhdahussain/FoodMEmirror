@@ -1,12 +1,10 @@
 package app.foodme;
 
-
 /*
 * Holds info about a specific order to be displayed on the emp order screen
  */
 
 public class EmpOrderInfo {
-
 
     String campus;
     String building;

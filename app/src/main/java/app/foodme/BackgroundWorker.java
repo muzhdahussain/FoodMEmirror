@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.view.Gravity;
 import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,6 +18,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 
 /**
  * This file sends login/registration information to the php site for verification.
@@ -285,7 +287,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
             try {
 
-                String updateOrderUrl = "http://70.77.241.161:8080/update_order_status.php";
+                String updateOrderUrl = databaseURL + "/update_order_status.php";
                 // Makes HTTP connection to the php site
                 URL url = new URL(updateOrderUrl);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -327,14 +329,13 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             }
 
         }
-        else if(type.equals("order completed")){
+        else if(type.equals("submit_rating")) {
 
-            orderID = params[1];
+            String submit_rating_url = databaseURL + "/cust_submit_rating.php?";
 
             try {
-                String updateOrderUrl = "http://70.77.241.161:8080/update_order_status.php?";
                 // Makes HTTP connection to the php site
-                URL url = new URL(updateOrderUrl);
+                URL url = new URL(submit_rating_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoInput(true);
@@ -344,8 +345,12 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-                String postData = URLEncoder.encode("status", "UTF-8") + "=" + URLEncoder.encode("3", "UTF-8") + "&"
-                        + URLEncoder.encode("order_id", "UTF-8") + "=" + URLEncoder.encode(orderID, "UTF-8");
+                String postData = URLEncoder.encode("custPhone", "UTF-8") + "=" + URLEncoder.encode(params[1], "UTF-8") + "&"
+                        + URLEncoder.encode("deliveryRating", "UTF-8") + "=" + URLEncoder.encode(params[2], "UTF-8") + "&"
+                        + URLEncoder.encode("notes", "UTF-8") + "=" + URLEncoder.encode(params[3], "UTF-8") + "&"
+                        + URLEncoder.encode("foodRating", "UTF-8") + "=" + URLEncoder.encode(params[4], "UTF-8") + "&"
+                        + URLEncoder.encode("orderID", "UTF-8") + "=" + URLEncoder.encode(params[5], "UTF-8");
+
                 bufferedWriter.write(postData);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -369,6 +374,48 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if(type.equals("order completed")){
+
+                orderID = params[1];
+
+                try {
+                    String updateOrderUrl = databaseURL + "/update_order_status.php?";
+                    // Makes HTTP connection to the php site
+                    URL url = new URL(updateOrderUrl);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoInput(true);
+                    httpURLConnection.setDoOutput(true);
+
+                    // Creates output streams
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+
+                    String postData = URLEncoder.encode("status", "UTF-8") + "=" + URLEncoder.encode("3", "UTF-8") + "&"
+                            + URLEncoder.encode("order_id", "UTF-8") + "=" + URLEncoder.encode(orderID, "UTF-8");
+                    bufferedWriter.write(postData);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+
+                    // Creates input streams
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+
+                    // Reads response from the php site
+                    String result = "";
+                    String line = "";
+                    while ((line = bufferedReader.readLine()) != null) {
+                        result += line;
+                    }
+                    inputStream.close();
+                    httpURLConnection.disconnect();
+
+                    return result;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
         return null;
     }
@@ -396,12 +443,25 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
        else if (result.startsWith("Order No.")){
 
             // Displays to the customer that their order has been submitted
-            Toast.makeText(context, result,  Toast.LENGTH_LONG).show();
+            Toast toast = Toast.makeText(context, result, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
 
             // Returns to the customer options menu
             Intent i = new Intent(context, CustOptions.class);
             i.putExtra("phone_no", s_phoneNum);
             context.startActivity(i);
+        }
+        else if (result.equals("Rating submitted successfully!")){
+            Intent i = new Intent(context, CustOptions.class);
+            i.putExtra("phone_no", s_phoneNum);
+            context.startActivity(i);
+        }
+        else if (result.equals("Error: Rating not submitted!")){
+            // Displays to the customer that they have already rating the chosen order
+            Toast toast = Toast.makeText(context, "Error: You have already rated this order!", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }
         else {
             // Displays response to the user

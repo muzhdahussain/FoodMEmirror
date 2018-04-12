@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.View;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -111,7 +112,10 @@ public class CustomerMenu extends AppCompatActivity {
                         if (!((customerSelection.getCampusID()).equals("") || customerSelection.getCampusID().equals(itemIDs.get(GetItemPosition)))) {
                             order.clearOrder();
                             // Displays to the user that their order has been cleared
-                            Toast.makeText(CustomerMenu.this, "WARNING: Order has been cleared!", Toast.LENGTH_LONG).show();
+                            // Displays to the user that their order has been cleared
+                            Toast toast = Toast.makeText(CustomerMenu.this, "WARNING: Order has been cleared!", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
                         }
                         // Sets campusID to chosen campus
                         customerSelection.setCampusID(itemIDs.get(GetItemPosition));
@@ -166,7 +170,10 @@ public class CustomerMenu extends AppCompatActivity {
                         order.addItem(new OrderItem(customerSelection.getVendorID(), customerSelection.getMenuID(), itemIDs.get(GetItemPosition)));
 
                         // Displays to the user that the item has been added to their order
-                        Toast.makeText(CustomerMenu.this, "Item added to order!", Toast.LENGTH_SHORT).show();
+                        // Displays to the user that their order has been cleared
+                        Toast toast = Toast.makeText(CustomerMenu.this, "Item added to order!", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP, 0, 0);
+                        toast.show();
                     }
 
                     if (JSON_NAME.equals("Item_Name")) {
@@ -256,12 +263,18 @@ public class CustomerMenu extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (true) {
-            if (currentMenu.equals("campus")){
-                // Displays to the user that their order has been cleared
-                Toast.makeText(CustomerMenu.this, "WARNING: Order has been cleared!", Toast.LENGTH_LONG).show();
+            if (currentMenu.equals("campus")) {
 
-                // Returns to customer selection menu
-                startActivity(new Intent(this,CustOptions.class));}
+                // Displays to the user that their order has been cleared
+                Toast toast = Toast.makeText(CustomerMenu.this, "WARNING: Order has been cleared!", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+
+                // Returns to the customer options menu
+                Intent i = new Intent(this, CustOptions.class);
+                i.putExtra("phone_no", phone_no);
+                this.startActivity(i);
+            }
 
             else if (currentMenu.equals("vendors")){
                 // Sets previous menu retrieval variables
@@ -369,22 +382,33 @@ public class CustomerMenu extends AppCompatActivity {
         notes = et_notes.getText().toString();
 
         if (paymentType.equals("") || building.equals("") || roomNum.equals("")){
-            Toast.makeText(CustomerMenu.this, "Please fill out all required information! (Notes are optional)", Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(CustomerMenu.this, "Please fill out all required information! (Notes are optional)", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }
         else {
-            // Default apprOrDen value is A (payment system is not implemented)
-            // Status is set to 1, which indicates the order is awaiting a deliverer
-            // Sends customer order information to BackgroundWorker for processing
-            BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+            // checks user input
+            // Regex expression used from: http://www.sitepoint.com/forums/showthread.php?204268-Regex-for-letters-numbers-and-spaces
+            if (paymentType.matches("[a-z|A-Z|0-9|\\s]*") && building.matches("[a-z|A-Z|0-9|\\s]*") && roomNum.matches("[a-z|A-Z|0-9|\\s]*") && notes.matches("[a-z|A-Z|0-9|\\s]*")) {
+                // Default apprOrDen value is A (payment system is not implemented)
+                // Status is set to 1, which indicates the order is awaiting a deliverer
+                // Sends customer order information to BackgroundWorker for processing
+                BackgroundWorker backgroundWorker = new BackgroundWorker(this);
 
-            // Adds the order items to an array in the background worker for processing
-            orderItems = order.getOrderItems();
-            for (OrderItem orderItem : orderItems){
-                backgroundWorker.orderItems.add(orderItem);
+                // Adds the order items to an array in the background worker for processing
+                orderItems = order.getOrderItems();
+                for (OrderItem orderItem : orderItems) {
+                    backgroundWorker.orderItems.add(orderItem);
+                }
+
+                backgroundWorker.execute("order_submit", paymentType, "A", building, roomNum, "1", phone_no, assignEmployee(), customerSelection.getCampusID(), notes);
+            } else {
+                Toast toast = Toast.makeText(CustomerMenu.this, "WARNING: Please remove any special characters, and try again.", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }
-
-            backgroundWorker.execute("order_submit", paymentType, "A", building, roomNum, "1", phone_no, assignEmployee(), customerSelection.getCampusID(), notes);
         }
+
     }
 
     // Assigns an employee for the order based on the campus the order is linked to

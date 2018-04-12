@@ -21,7 +21,8 @@ import java.util.List;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.Toast;
-//http://tekeye.uk/android/examples/ui/android-popup-window using
+
+// Using code adapted from: http://tekeye.uk/android/examples/ui/android-popup-window using
 public class CustomerHistory extends AppCompatActivity {
 
     List<Item> itemList;
@@ -41,19 +42,9 @@ public class CustomerHistory extends AppCompatActivity {
     String phone_no;
 
     String orderID;
+
     // Represents the column name we want to retrieve to display from the query
     String GET_JSON_Order_Num = "Order_Num";
-    String GET_JSON_App_or_Den = "App_or_Den";
-    String GET_JSON_Payment_type= "Payment_Type";
-    String GET_JSON_Building= "Building";
-    String GET_JSON_Room_Num= "Room_Num";
-    String GET_JSON_Status= "Status";
-    String GET_JSON_Employee_SIN= "Employee_SIN";
-    String GET_JSON_Campus_Campus_ID= "Campus_Campus_ID";
-    String GET_JSON_Notes= "Notes";
-
-
-
 
     JsonArrayRequest jsonArrayRequest ;
     RequestQueue requestQueue ;
@@ -100,10 +91,6 @@ public class CustomerHistory extends AppCompatActivity {
 
                     GetItemPosition = Recyclerview.getChildAdapterPosition(ChildView);
 
-                    //TODO Add scrollable popup to display all order information
-                    //itemID[i]= order number, i corresponds to its index on screen = GetItemPosition
-
-                   // Toast.makeText(CustomerHistory.this, SubjectNames.get(GetItemPosition), Toast.LENGTH_LONG).show();
                     orderID = (itemIDs.get(GetItemPosition));
                     Toast.makeText(CustomerHistory.this, "Order " +  orderID + " Selected", Toast.LENGTH_LONG).show();
                 }
@@ -131,9 +118,7 @@ public class CustomerHistory extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
                         progressBar.setVisibility(View.GONE);
-
                         JSON_PARSE_DATA_AFTER_WEBCALL(response);
                     }
                 },
@@ -143,12 +128,9 @@ public class CustomerHistory extends AppCompatActivity {
                         Toast toast = Toast.makeText(CustomerHistory.this, "No Results Found!", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
-
                     }
                 });
-
         requestQueue = Volley.newRequestQueue(this);
-
         requestQueue.add(jsonArrayRequest);
     }
 
@@ -162,23 +144,16 @@ public class CustomerHistory extends AppCompatActivity {
             JSONObject json = null;
             try {
                 json = array.getJSONObject(i);
-
                 GetDataAdapter2.setItemName("Order#: "+json.getString(GET_JSON_Order_Num));
-
                 itemIDs.add(json.getString(GET_JSON_Order_Num));
-
-
             } catch (JSONException e) {
 
                 e.printStackTrace();
             }
             itemList.add(GetDataAdapter2);
         }
-
         recyclerViewadapter = new RecyclerViewCardViewAdapter(itemList, this);
-
         recyclerView.setAdapter(recyclerViewadapter);
-
     }
 
     public void showOrder(View view) {
@@ -188,10 +163,8 @@ public class CustomerHistory extends AppCompatActivity {
             Toast.makeText(CustomerHistory.this, "Select An Order", Toast.LENGTH_LONG).show();
 
         } else {
-
             Intent i;
             i = new Intent(this, Order_PP.class);
-           // i.putExtra("ORDER_VIEW", orderView);
             i.putExtra("ORDER_ID", orderID);
             startActivity(i);
         }

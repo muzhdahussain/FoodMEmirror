@@ -4,11 +4,12 @@ package app.foodme;
  * Handles customer registration activities.
  */
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Register extends AppCompatActivity {
 
@@ -32,13 +33,16 @@ public class Register extends AppCompatActivity {
         str_email = email.getText().toString();
         String type = "register";
 
-        // Sends registration information to BackgroundWorker for processing
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute(type, str_phoneNum, str_name, str_email);
-    }
-
-    // Returns to login
-    public void ReturnToLogin(View view){
-        startActivity(new Intent(this,MainActivity.class));
+        // checks user input
+        // Regex expression used from: http://www.sitepoint.com/forums/showthread.php?204268-Regex-for-letters-numbers-and-spaces
+        if (str_name.matches("[a-z|A-Z|0-9|\\s]*") && str_phoneNum.matches("[a-z|A-Z|0-9|\\s]*")) {
+            // Sends registration information to BackgroundWorker for processing
+            BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+            backgroundWorker.execute(type, str_phoneNum, str_name, str_email);
+        } else {
+            Toast toast = Toast.makeText(Register.this, "WARNING: Please remove any special characters, and try again.", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
     }
 }
