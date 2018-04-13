@@ -46,7 +46,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
          * Set to http://192.168.1.5:8080 for Kaylee's house
          * Set to http://70.77.241.161:8080 for elsewhere
          */
-        String databaseURL = "http://70.77.241.161:8080";
+        String databaseURL = "http://192.168.1.5:8080";
         String login_url = databaseURL + "/cust_login.php";
         String register_url = databaseURL + "/register.php";
         String emp_login_url = databaseURL + "/emp_login.php";
@@ -369,6 +369,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 inputStream.close();
                 httpURLConnection.disconnect();
 
+                s_phoneNum = params[1];
+
                 return result;
 
             } catch (IOException e) {
@@ -453,6 +455,10 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             context.startActivity(i);
         }
         else if (result.equals("Rating submitted successfully!")){
+            // Displays to the customer that their rating was submitted
+            Toast toast = Toast.makeText(context, "Rating submitted successfully!", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
             Intent i = new Intent(context, CustOptions.class);
             i.putExtra("phone_no", s_phoneNum);
             context.startActivity(i);

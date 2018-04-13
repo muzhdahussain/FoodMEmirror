@@ -63,7 +63,7 @@ public class Order_PP extends AppCompatActivity {
 
         orderID = getIntent().getStringExtra("ORDER_ID");
         //orderView = getIntent().getStringExtra("ORDER_VIEW");
-        http_json_url = "http://70.77.241.161:8080/get_order.php?order_id=" + orderID;
+        http_json_url = "http://192.168.1.5:8080/get_order.php?order_id=" + orderID;
 
         //get orderID info about order from db
         JsonDataWebCall();
