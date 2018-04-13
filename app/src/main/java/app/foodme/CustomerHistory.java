@@ -35,7 +35,7 @@ public class CustomerHistory extends AppCompatActivity {
 
     ProgressBar progressBar;
 
-    String databaseURL = "http://192.168.1.5:8080";
+    String databaseURL = "http://70.77.241.161:8080";
     String HTTP_JSON_URL = databaseURL + "/customer_history.php?cust_phone=";
 
     // Represents the column name we want to retrieve for tracking from the query

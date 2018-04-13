@@ -46,7 +46,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
          * Set to http://192.168.1.5:8080 for Kaylee's house
          * Set to http://70.77.241.161:8080 for elsewhere
          */
-        String databaseURL = "http://192.168.1.5:8080";
+        String databaseURL = "http://70.77.241.161:8080";
         String login_url = databaseURL + "/cust_login.php";
         String register_url = databaseURL + "/register.php";
         String emp_login_url = databaseURL + "/emp_login.php";

@@ -34,7 +34,7 @@ import android.widget.Toast;
 
 public class CustomerMenu extends AppCompatActivity {
 
-    String databaseURL = "http://192.168.1.5:8080";
+    String databaseURL = "http://70.77.241.161:8080";
     List<Item> itemList;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager recyclerViewlayoutManager;
