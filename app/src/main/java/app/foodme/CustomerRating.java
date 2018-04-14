@@ -31,8 +31,8 @@ public class CustomerRating extends AppCompatActivity {
         EditText et_ratingNotes = findViewById(R.id.et_notes2);
 
         // Retrieves variables entered by the customer
-        String foodRating = Integer.toString(rb_foodRatingBar.getNumStars());
-        String deliveryRating = Integer.toString(rb_deliveryRatingBar.getNumStars());
+        String foodRating = Float.toString(rb_foodRatingBar.getRating());
+        String deliveryRating = Float.toString(rb_deliveryRatingBar.getRating());
         String ratingNotes = et_ratingNotes.getText().toString();
 
         // Checks user input
